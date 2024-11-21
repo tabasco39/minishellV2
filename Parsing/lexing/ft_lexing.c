@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:00:50 by aelison           #+#    #+#             */
-/*   Updated: 2024/10/08 13:59:40 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/14 09:16:38 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 static int	ft_check_cmd_aux(char *token, size_t len)
 {
-	if (ft_strncmp(token, "cd", len) == 0)
+	if (ft_strncmp(token, "cd", ft_max_value(len, ft_strlen("cd"))) == 0)
 		return (cd);
-	if (ft_strncmp(token, "pwd", len) == 0)
+	if (ft_strncmp(token, "pwd", ft_max_value(len, ft_strlen("pwd"))) == 0)
 		return (pwd);
-	if (ft_strncmp(token, "env", len) == 0)
+	if (ft_strncmp(token, "env", ft_max_value(len, ft_strlen("env"))) == 0)
 		return (env);
-	if (ft_strncmp(token, "echo", len) == 0)
+	if (ft_strncmp(token, "echo", ft_max_value(len, ft_strlen("echo"))) == 0)
 		return (echo);
-	if (ft_strncmp(token, "unset", len) == 0)
+	if (ft_strncmp(token, "unset", ft_max_value(len, ft_strlen("unset"))) == 0)
 		return (unset);
-	if (ft_strncmp(token, "exit", len) == 0)
+	if (ft_strncmp(token, "exit", ft_max_value(len, ft_strlen("exit"))) == 0)
 		return (e_exit);
 	if (ft_strncmp(token, "-", 1) == 0)
 		return (option);
@@ -35,16 +35,17 @@ static int	ft_check_cmd_aux(char *token, size_t len)
 
 int	ft_check_cmd(char *token)
 {
-	int	res;
+	int		res;
 	size_t	len;
 
 	len = ft_strlen(token);
 	if (ft_strncmp(token, "$?", 2) == 0)
 		return (question);
-	if (ft_strncmp(token, "export", len) == 0)
+	if (ft_strncmp(token, "export", ft_max_value(len,
+				ft_strlen("export"))) == 0)
 		return (e_export);
 	if (ft_strncmp(token, "<<", 2) == 0)
-		return (delimiter_redirect_input);
+		return (heredoc);
 	if (ft_strncmp(token, ">>", 2) == 0)
 		return (append_redirect_output);
 	if (ft_strncmp(token, ">", 1) == 0)

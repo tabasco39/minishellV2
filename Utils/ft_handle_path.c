@@ -3,36 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_handle_path.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 09:12:09 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/09/27 10:03:14 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/20 08:01:08 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*
-	handle echo / pwd / env
-	call exit function when exit
-*/
+char	**ft_substitute_var(char *token)
+{
+	char	**result;
 
-// static int	ft_use_my_own_functions(char *line)
-// {
-// 	char	*cmd;
-
-// 	if (line[0] == '/')
-// 		cmd = ft_strrchr(line, '/');
-// 	else
-// 		cmd = line;
-// 	if (ft_check_cmd(cmd) == 1 || ft_check_cmd(cmd) == 2
-// 		|| ft_check_cmd(cmd) == 3)
-// 		return (1);
-// 	if (ft_check_cmd(line) == 0 || ft_check_cmd(line) == 4
-// 		|| ft_check_cmd(line) == 5 || ft_check_cmd(line) == 8)
-// 		return (1);
-// 	return (0);
-// }
+	result = malloc(sizeof(char *) * 2);
+	if (!result)
+		return (NULL);
+	result[0] = ft_strjoin("\0", token);
+	result[1] = NULL;
+	if (access(result[0], X_OK) != 0)
+	{
+		ft_free_all(result);
+		return (NULL);
+	}
+	return (result);
+}
 
 char	**ft_get_all_path(t_list *env, char *line)
 {
@@ -41,17 +36,19 @@ char	**ft_get_all_path(t_list *env, char *line)
 	int		i;
 
 	i = 0;
-	paths = ft_getvar(env, "PATH");
-	paths += 6;
-	if (line[0] == '/')
+	if (ft_find_char(line, '/') != -1)
 	{
 		paths_tab = malloc(sizeof(char *) * 2);
 		paths_tab[0] = ft_strdup(line);
 		paths_tab[1] = NULL;
 		return (paths_tab);
 	}
+	paths = ft_getvar(env, "PATH");
+	if (paths == NULL)
+		return (ft_substitute_var(line));
+	paths += 5;
 	paths_tab = ft_split(paths, ':');
-	while (paths_tab[i] != NULL)
+	while (line && paths_tab[i] != NULL)
 	{
 		paths_tab[i] = ft_strjoin_shell(paths_tab[i], "/");
 		paths_tab[i] = ft_strjoin_shell(paths_tab[i], line);
@@ -64,17 +61,16 @@ char	*ft_verify_exec_cmd(char **paths)
 {
 	int		i;
 	char	*result;
+
 	i = 0;
 	while (paths[i] != NULL)
 	{
 		if (access(paths[i], X_OK) == 0)
 		{
 			result = ft_strdup_shell(paths[i]);
-			ft_free_all(paths);
 			return (result);
 		}
 		i++;
 	}
-	ft_free_all(paths);
 	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:59:05 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/08/30 07:52:31 by aelison          ###   ########.fr       */
+/*   Updated: 2024/11/18 10:45:36 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,13 @@ char	*ft_get_to_removes(int is_dq, int is_sq)
 		return (NULL);
 	if ((is_sq != 0 && is_dq != 0) && (is_sq % 2 == 0 && is_dq % 2 == 0))
 	{
-		result[0] = (char)34;
-		result[1] = (char)39;
-		result[2] = '\0';
-		return (result);
+		free(result);
+		return (ft_rm_case(0));
 	}
 	if (is_dq != 0 && is_dq % 2 == 0)
 	{
-		result[0] = (char)34;
-		result[1] = '\0';
-		return (result);
+		free(result);
+		return (ft_rm_case(1));
 	}
 	if (is_sq != 0 && is_sq % 2 == 0)
 	{
@@ -97,33 +94,5 @@ char	*ft_get_first_quote(char *str)
 	is_squote = 0;
 	ft_check_quote(str, &is_dquote, &is_squote);
 	result = ft_get_to_removes(is_dquote, is_squote);
-	return (result);
-}
-
-char	*ft_del_quote(char *word, char *quote)
-{
-	int		i;
-	int		j;
-	int		len;
-	int		nb_quote;
-	char	*result;
-
-	nb_quote = ft_count_quote(word, quote);
-	len = ft_strlen(word) - nb_quote + 1;
-	result = malloc(sizeof(char) * (len + 1));
-	if (!result)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (word[i] != '\0')
-	{
-		while (ft_find_char(quote, word[i]) != -1 && word[i] != '\0')
-			i++;
-		result[j] = word[i];
-		j++;
-		if (word[i] != '\0')
-			i++;
-	}
-	result[j] = '\0';
 	return (result);
 }

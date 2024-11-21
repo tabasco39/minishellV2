@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_handle_envp.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 07:54:52 by aelison           #+#    #+#             */
-/*   Updated: 2024/10/09 11:00:31 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/18 10:52:16 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	ft_export(t_var *var, char *to_add)
 	}
 	var_envp = NULL;
 	end = ft_find_char(to_add, '=');
+	if (ft_valid_export(to_add) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	if (end == -1)
 		var_envp = ft_strdup(to_add);
 	else
@@ -87,6 +89,7 @@ int	ft_export_aux(t_var *var, char *to_add)
 	int		i;
 
 	i = 0;
+	result = 0;
 	if (ft_find_char(to_add, ' ') != -1 && ft_find_char(to_add, '=') == -1)
 	{
 		res_split = ft_split(to_add, ' ');

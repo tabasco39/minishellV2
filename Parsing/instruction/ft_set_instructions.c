@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_set_instructions.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelison <aelison@student.42antananarivo.m  +#+  +:+       +#+        */
+/*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 09:13:39 by aelison           #+#    #+#             */
-/*   Updated: 2024/08/21 10:02:20 by aelison          ###   ########.fr       */
+/*   Updated: 2024/11/15 08:09:41 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,13 @@ static void	ft_add_instru(t_instru **head, t_instru *elem)
 	}
 }
 
-t_instru	*ft_set_instru(t_token *head)
+void	ft_set_instru(t_instru **test, t_token *head)
 {
-	t_instru	*result;
-	t_token		*start;
-	t_token		*end;
-	int			id;
+	t_token	*start;
+	t_token	*end;
+	int		id;
 
 	id = 1;
-	result = NULL;
 	start = NULL;
 	end = NULL;
 	while (head)
@@ -79,12 +77,11 @@ t_instru	*ft_set_instru(t_token *head)
 			end = head;
 		if (start && end)
 		{
-			ft_add_instru(&result, ft_create_instru(start, end, id));
+			ft_add_instru(test, ft_create_instru(start, end, id));
 			id++;
 			start = NULL;
 			end = NULL;
 		}
 		head = head->next;
 	}
-	return (result);
 }

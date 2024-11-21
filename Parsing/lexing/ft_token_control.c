@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_control.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelison <aelison@student.42antananarivo.m  +#+  +:+       +#+        */
+/*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 08:48:33 by aelison           #+#    #+#             */
-/*   Updated: 2024/09/25 07:32:17 by aelison          ###   ########.fr       */
+/*   Updated: 2024/11/14 09:16:45 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_token	*ft_move_first_aux(t_token *head, t_token *b_end,
-	t_token *start, t_token *end)
+t_token	*ft_move_first_aux(t_token *head, t_token *b_end, t_token *start,
+		t_token *end)
 {
 	t_token	*tmp_prev;
 
@@ -29,8 +29,8 @@ t_token	*ft_move_first_aux(t_token *head, t_token *b_end,
 	return (start);
 }
 
-t_token	*ft_move_sec_aux(t_token *head, t_token *b_end,
-	t_token *start, t_token *end)
+t_token	*ft_move_sec_aux(t_token *head, t_token *b_end, t_token *start,
+		t_token *end)
 {
 	t_token	*tmp_nxt;
 	t_token	*tmp_prev;

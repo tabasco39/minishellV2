@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:30:14 by aelison           #+#    #+#             */
-/*   Updated: 2024/10/09 09:49:18 by aelison          ###   ########.fr       */
+/*   Updated: 2024/10/14 07:23:03 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,34 @@ int	ft_max_value(int val1, int val2)
 	if (val1 > val2)
 		return (val1);
 	return (val2);
+}
+
+int	ft_is_quote_closed(char *to_check)
+{
+	int		i;
+	int		status;
+	char	quote;
+
+	i = 0;
+	status = EXIT_SUCCESS;
+	while (to_check[i] != '\0')
+	{
+		if (status == EXIT_SUCCESS)
+		{
+			if (to_check[i] == (char)34 || to_check[i] == (char)39)
+			{
+				quote = to_check[i];
+				status = EXIT_FAILURE;
+			}
+		}
+		else if (status == EXIT_FAILURE)
+		{
+			if (to_check[i] == quote)
+				status = EXIT_SUCCESS;
+		}
+		i++;
+	}
+	return (status);
 }
 
 int	ft_find_char(char *token, char to_find)

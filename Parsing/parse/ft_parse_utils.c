@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:13:08 by aelison           #+#    #+#             */
-/*   Updated: 2024/10/10 08:32:52 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:50:17 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	ft_parse_arg(t_token *current, t_token *nxt)
 			return ;
 		else
 		{
-			if (nxt->command == option)
+			while (nxt && nxt->command == option)
 				nxt = nxt->next;
-			while (nxt && ((nxt->command == not_comm)
-					|| (nxt->command == option)))
+			while (nxt && !(nxt->command >= e_pipe
+					&& nxt->command <= append_redirect_output))
 			{
 				nxt->command = argument;
 				nxt = nxt->next;
@@ -35,7 +35,10 @@ void	ft_parse_arg(t_token *current, t_token *nxt)
 void	ft_affect_dollar(t_token *current)
 {
 	if (ft_find_char(current->token, '$') != -1)
-		current->command = dollar;
+	{
+		if (ft_strlen(current->token) != 1)
+			current->command = dollar;
+	}
 }
 
 void	ft_redirection(t_token *current, t_token *nxt)
@@ -46,8 +49,8 @@ void	ft_redirection(t_token *current, t_token *nxt)
 		if (nxt)
 		{
 			if (!(nxt->command >= e_pipe
-		&& nxt->command <= append_redirect_output))
-			nxt->command = argument;
+					&& nxt->command <= append_redirect_output))
+				nxt->command = argument;
 		}
 	}
 }

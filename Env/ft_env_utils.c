@@ -6,7 +6,7 @@
 /*   By: aelison <aelison@student.42antananarivo.m  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 08:19:16 by aelison           #+#    #+#             */
-/*   Updated: 2024/10/09 06:52:40 by aelison          ###   ########.fr       */
+/*   Updated: 2024/10/21 07:37:47 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_list	*ft_move_to_target(t_list *env, char *target)
 	if (!env || !target)
 		return (NULL);
 	len = ft_strlen(target);
-	while (ft_strncmp(env->content, target, len) != 0 && env)
+	while (env && ft_strncmp(env->content, target, len) != 0)
 		env = env->next;
 	return (env);
 }
@@ -58,15 +58,13 @@ void	ft_add_to_env(t_var *var, char *to_add, char *val_env, int ind_equal)
 {
 	char	*exist;
 	t_list	*tmp;
-	int		stack;
 
 	exist = ft_getvar(var->env, val_env);
-	if (!exist)
+	if (exist == NULL)
 		ft_add_aux(var, to_add);
 	else
 	{
-		stack = ft_find_char(exist, '=');
-		if (stack == ind_equal || stack == -1)
+		if (ind_equal != -1)
 		{
 			tmp = ft_move_to_target(var->env, val_env);
 			free(tmp->content);
@@ -74,8 +72,6 @@ void	ft_add_to_env(t_var *var, char *to_add, char *val_env, int ind_equal)
 			ft_free_all(var->tab_env);
 			var->tab_env = ft_new_envp(var->env);
 		}
-		else
-			ft_add_aux(var, to_add);
 	}
 }
 

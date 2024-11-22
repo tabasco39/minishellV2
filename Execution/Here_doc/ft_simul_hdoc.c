@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:21:06 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/21 15:43:22 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/22 08:10:13 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	ft_get_heredoc_result(t_token *target, int hd, t_var *var)
 	ft_handle_prompt_heredoc(var, target, &bool);
 	if (bool == 0)
 	{
-		var->hdoc_line = ft_expand(var, var->hdoc_line);
+		var->hdoc_line = ft_expand(var, var->hdoc_line, EXIT_SUCCESS);
 	}
 	if (var->hdoc_line[0] != '\0')
 	{
@@ -102,8 +102,7 @@ int	ft_simul_heredoc(t_token *target, int hd, t_var *var)
 	if (!target->next || (target->next && target->next->command >= e_pipe
 			&& target->next->command <= append_redirect_output))
 	{
-		ft_putendl_fd("minishell : syntax error", 2);
-		return (2);
+		return (EXIT_SUCCESS);
 	}
 	pid = fork();
 	if (pid == 0)

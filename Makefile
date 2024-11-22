@@ -3,6 +3,7 @@ NAME = minishell
 LIB = ./libft/libft.a
 
 SRC = ft_program.c \
+	  ft_history.c \
 	  debug.c \
 	  libft/get_next_line/get_next_line.c \
   	  libft/get_next_line/get_next_line_utils.c \
@@ -82,4 +83,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all fclean re
+.PHONY: all clean fclean re

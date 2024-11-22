@@ -62,16 +62,11 @@ void	ft_lstclear_instru(t_instru **instru, t_token **head)
 	}
 }
 
-void	ft_exit(t_var *var, unsigned long long end, int status)
+void	ft_exit(t_var *var, long long end)
 {
-	rl_clear_history();
 	ft_free_minishell(var);
 	ft_putendl_fd("exit : good bye", 1);
-	if (status == EXIT_FAILURE)
-	{
-		ft_putendl_fd("minishell: error numeric arg required", 2);
-		exit(2);
-	}
+	rl_clear_history();
 	exit(end);
 }
 
@@ -97,7 +92,7 @@ int	ft_exec_builtin(t_var *all_var, t_token *start, t_token *end)
 	else if (start->command == env)
 		result = ft_exec_env(all_var, new_s);
 	else if (start->command == e_exit)
-		ft_exec_exit(all_var, new_s, end);
+		result = ft_exec_exit(all_var, start, new_s);
 	all_var->status = result;
 	ft_close_pipe(all_var);
 	return (result);

@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 10:45:57 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/19 10:54:49 by aelison          ###   ########.fr       */
+/*   Updated: 2024/11/22 11:22:35 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,29 +82,31 @@ int	ft_exec_pwd(void)
 	return (result);
 }
 
-void	ft_exec_exit(t_var *var, t_token *start, t_token *end)
+int	ft_exec_exit(t_var *var, t_token *start, t_token *arg)
 {
-	int			i;
-	int			status;
 	long long	value;
+	int			status;
 
-	i = 0;
-	if ((start && start->prev->prev) || end->next)
-		return ;
-	status = EXIT_SUCCESS;
-	if (start == NULL)
-		ft_exit(var, var->status, EXIT_SUCCESS);
-	else if (start && start->next)
+	if (arg && arg->next)
 	{
-		if (start->next->command == argument)
+		if (arg->next->command == argument)
 		{
-			ft_putendl_fd("minishell: too many arg", 2);
-			var->status = 1;
+			ft_putendl_fd("minishell: exit: too many arg", STDERR_FILENO);
+			return (EXIT_FAILURE);
 		}
+	}
+	if (arg == NULL)
+	{
+		if (start->prev == NULL)
+			ft_exit(var, var->status);
 	}
 	else
 	{
-		value = ft_atoi_shell(start->token, &status);
-		ft_exit_status(start, var, &status, &value);
+		value = ft_atoi_shell(arg->token, &status);
+		if (start->prev)
+			ft_exit_status(arg, &status, &value, EXIT_FAILURE);
+		else
+			ft_exit_status(arg, &status, &value, EXIT_SUCCESS);
 	}
+	return (var->status);
 }

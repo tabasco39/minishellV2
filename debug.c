@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 10:55:02 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/21 13:11:45 by aelison          ###   ########.fr       */
+/*   Updated: 2024/11/22 11:35:42 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,32 +119,6 @@ void	ft_disp_dchar(char **str)
 	}
 }
 */
-
-void	ft_init_bash_history(char *home)
-{
-	char	*line;
-	char	*dir;
-	int		fd;
-
-	line = "\0";
-	dir = ft_strjoin(home, "/");
-	dir = ft_strjoin_shell(dir, ".bash_history");
-	fd = open(dir, O_RDONLY);
-	free(dir);
-	if (fd != -1)
-	{
-		while (line != NULL)
-		{
-			line = get_next_line(fd);
-			if (line)
-			{
-				add_history(line);
-				free(line);
-			}
-		}
-	}
-	close(fd);
-}
 
 static void	ft_display_aux(char *to_print)
 {

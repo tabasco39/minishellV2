@@ -35,6 +35,11 @@ static unsigned int	len_nb(long long nb)
 
 static char	*negatif(char *result, long long nb, int len)
 {
+	if (nb + 1 == (-9223372036854775807))
+	{
+		free(result);
+		return (ft_strdup("-9223372036854775808"));
+	}
 	result[0] = '-';
 	nb = nb * -1;
 	while (len)
@@ -48,6 +53,11 @@ static char	*negatif(char *result, long long nb, int len)
 
 static char	*positif(char *result, long long nb, int len)
 {
+	if (nb == 9223372036854775807)
+	{
+		free(result);
+		return (ft_strdup("9223372036854775807"));
+	}
 	while (len)
 	{
 		result[len] = (nb % 10) + '0';

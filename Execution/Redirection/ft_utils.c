@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:29:30 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/21 07:57:08 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:49:15 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,25 @@ void	ft_check_access_directory(char *check_ambigous, t_token *target)
 void	ft_handle_redirection_error(char **check_ambigous, t_token *target,
 		t_var *var)
 {
-	if (target && target->next)
+	if (target->command >= redirect_input
+		&& target->command <= append_redirect_output)
 	{
-		*check_ambigous = ft_check_ambigous(var, target->next);
-		if (*check_ambigous)
+		if (target && target->next)
 		{
-			free(target->next->token);
-			target->next->token = *check_ambigous;
+			*check_ambigous = ft_check_ambigous(var, target->next);
+			if (*check_ambigous)
+			{
+				free(target->next->token);
+				target->next->token = *check_ambigous;
+			}
 		}
-	}
-	if (target->command != heredoc && target->next == NULL)
-	{
-		ft_free_minishell(var);
-		ft_putendl_fd("minishell : error : No such file or directory", 2);
-		exit(1);
+		if (target && target->next == NULL)
+		{
+			ft_putstr_fd("minishell : error : Syntax error near ", 2);
+			ft_putendl_fd(target->token, 2);
+			ft_free_minishell(var);
+			exit(1);
+		}
 	}
 }
 
@@ -59,7 +64,7 @@ char	*ft_check_ambigous(t_var *var, t_token *token)
 	char	*value;
 
 	value = ft_strdup(token->token);
-	tmp = ft_expand(var, value);
+	tmp = ft_expand(var, value, EXIT_FAILURE);
 	if (token && token->prev && token->prev->command != heredoc)
 	{
 		if (token->command == dollar)

@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 06:36:49 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/21 10:15:33 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:19:34 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	ft_free_minishell(t_var *all_var)
 {
-	close(3);
-	close(4);
+	close (all_var->iteration->here_doc_fd[0]);
+	close (all_var->iteration->here_doc_fd[1]);
+	close(all_var->history);
 	ft_lstclear_instru(&all_var->instru, &all_var->token);
 	ft_lstclear(&all_var->env, free);
 	ft_free_all(all_var->tab_env);
@@ -57,8 +58,8 @@ void	ft_free_all(char **split)
 
 void	ft_close_pipe(t_var *var)
 {
-	close (3);
-	close (4);
+	close (var->iteration->here_doc_fd[0]);
+	close (var->iteration->here_doc_fd[1]);
 	if (var->iteration->pipefd[0] != -1)
 		close(var->iteration->pipefd[0]);
 	if (var->iteration->pipefd[1] != -1)

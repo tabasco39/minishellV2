@@ -34,7 +34,7 @@ int	ft_div_by_token(t_var *var)
 
 	i = 0;
 	newline = ft_div_by_redirect(var->line, "<>|");
-	newline = ft_expand(var, newline);
+	newline = ft_expand(var, newline, EXIT_FAILURE);
 	split = ft_split_shell(newline, ' ');
 	if (split == NULL || *split == NULL)
 	{

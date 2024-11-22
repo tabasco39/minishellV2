@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:43:40 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/21 15:06:16 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:05:23 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ pid_t	ft_exec_current_instru(t_instru *tmp, t_exec *it, int input_fd,
 				&it->here_doc_fd[0], &it->redir_in_fd);
 			has_redirection = 1;
 		}
-		ft_handle_empty_com(tmp, var);
 		ft_dup_fd_end_instru(*it, has_redirection);
+		ft_handle_empty_com(tmp, var);
 		ft_exec_path(tmp, var);
 	}
 	signal(SIGQUIT, SIG_IGN);
@@ -99,7 +99,10 @@ pid_t	ft_exec_all_instru(t_instru *tmp, t_exec *iteration, int input_fd,
 		if (ft_exec_once(tmp, var) == EXIT_SUCCESS)
 			return (ft_exec_once_builtin(tmp, var, &pid));
 		if (iteration->i != iteration->end)
-			pipe(iteration->pipefd);
+		{
+			if (pipe(iteration->pipefd) == -1)
+				return (pid);
+		}
 		pid = ft_exec_current_instru(tmp, iteration, input_fd, var);
 		if (iteration->i != iteration->start)
 			close(input_fd);
@@ -125,7 +128,8 @@ void	ft_exec(t_instru *tmp, t_var *var)
 	ft_init_exec(var->iteration, var);
 	if (ft_handle_unclosed_pipe(var, &tmp, var->iteration) == EXIT_FAILURE)
 		return ;
-	pipe(var->iteration->here_doc_fd);
+	if (pipe(var->iteration->here_doc_fd) == -1)
+		return ;
 	if (ft_check_before_exec(tmp, target, var->iteration, var) == EXIT_FAILURE)
 		return ;
 	pid = ft_exec_all_instru(tmp, var->iteration, input_fd, var);

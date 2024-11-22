@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:47:25 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/14 07:46:11 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:59:02 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_handle_exit_status(t_var *var)
 	if (WIFSIGNALED(var->current_status))
 	{
 		if (WTERMSIG(var->current_status) == SIGQUIT)
-			ft_putendl_fd("Quit(Core dumped)", 2);
+			ft_putendl_fd("Quit (core dumped)", 2);
 		else if (WTERMSIG(var->current_status) == SIGINT)
 			ft_putstr_fd("\n", STDOUT_FILENO);
 		var->status = 128 + WTERMSIG(var->current_status);
@@ -35,7 +35,6 @@ void	ft_display_error(char *error, char *token)
 	ft_putstr_fd(error, 2);
 	ft_putendl_fd(token, 2);
 	ft_free_minishell(all_var);
-	free(token);
 	exit(2);
 }
 
@@ -52,8 +51,7 @@ t_token	*ft_find_redirection(t_token *token)
 {
 	t_token	*tmp;
 
-	tmp = token;
-	tmp = ft_find_cmd(tmp, heredoc);
+	tmp = ft_find_cmd(token, heredoc);
 	if (tmp)
 		return (tmp);
 	tmp = token;

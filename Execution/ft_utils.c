@@ -35,6 +35,7 @@ long long	ft_atoi_shell(char *str, int *status)
 	long long	sign;
 	int			i;
 
+	*status = EXIT_SUCCESS;
 	result = 0;
 	sign = 1;
 	i = ft_atoi_shell_aux(str, &sign);
@@ -62,7 +63,7 @@ char	*ft_pipes_valid(t_var *var, char *line)
 		if (!to_add)
 		{
 			ft_putendl_fd("minishell: syntax error unexpected EOF", 2);
-			ft_exit(var, 2, EXIT_SUCCESS);
+			ft_exit(var, 2);
 		}
 		if (ft_is_pipes_closed(to_add) == -1)
 		{

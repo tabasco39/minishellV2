@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 11:38:32 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/21 10:15:44 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:16:15 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_var	*ft_get_struct_var(void)
 void	ft_init_var(t_var *all, char **envp)
 {
 	all->status = 0;
+	all->nb_command = 0;
 	all->token = NULL;
 	all->env = NULL;
 	all->line = NULL;
@@ -61,6 +62,7 @@ void	ft_init_var(t_var *all, char **envp)
 	all->iteration->redir_in_fd = STDIN_FILENO;
 	all->iteration->pipefd[0] = -1;
 	all->iteration->pipefd[1] = -1;
+	all->history = ft_minishell_history(all, EXIT_SUCCESS);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -79,11 +81,9 @@ int	main(int argc, char **argv, char **envp)
 		ft_handle_signal();
 		all_var->line = readline(GREEN"Minishell$> "RESET);
 		if (all_var->line == NULL)
-			ft_exit(all_var, all_var->status, 0);
-		add_history(all_var->line);
+			ft_exit(all_var, all_var->status);
+		ft_history(all_var);
 		ft_debug(all_var);
-		close(3);
-		close(4);
 	}
 	return (all_var->status);
 }

@@ -45,7 +45,7 @@ static char	*ft_expand_aux(t_var *var, char *to_change, int *i)
 	return (res);
 }
 
-static char	*ft_loop(t_var *var, char *to_change)
+static char	*ft_loop(t_var *var, char *to_change, int do_exp)
 {
 	int		i;
 	char	*result;
@@ -55,7 +55,8 @@ static char	*ft_loop(t_var *var, char *to_change)
 	result = ft_strdup("\0");
 	while (to_change[i] != '\0')
 	{
-		if (to_change[i] == '$' && ft_exec_exp(to_change, i) == EXIT_SUCCESS)
+		if (to_change[i] == '$'
+			&& ft_exec_exp(to_change, i, do_exp) == EXIT_SUCCESS)
 		{
 			tmp = ft_expand_aux(var, to_change, &i);
 			if (tmp)
@@ -73,7 +74,7 @@ static char	*ft_loop(t_var *var, char *to_change)
 	return (result);
 }
 
-char	*ft_expand(t_var *var, char *to_change)
+char	*ft_expand(t_var *var, char *to_change, int do_exp)
 {
 	int		i;
 	int		ind_hdoc;
@@ -87,7 +88,7 @@ char	*ft_expand(t_var *var, char *to_change)
 		free(to_change);
 		return (result);
 	}
-	result = ft_loop(var, to_change);
+	result = ft_loop(var, to_change, do_exp);
 	free(to_change);
 	return (result);
 }

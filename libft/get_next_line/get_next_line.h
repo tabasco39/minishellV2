@@ -6,7 +6,7 @@
 /*   By: aelison <aelison@student.42antananarivo.m  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:07:34 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/18 09:53:49 by aelison          ###   ########.fr       */
+/*   Updated: 2024/11/22 12:19:12 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 100
 # endif
 
 # include <stdio.h>
 # include <unistd.h>
-# include <fcntl.h>
 # include <stdlib.h>
 
 int		ft_strlen_gnl(char *str);

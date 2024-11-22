@@ -76,16 +76,25 @@ char	*ft_exp(t_var *var, char *arg, int start, char *status)
 	return (result);
 }
 
-int	ft_exec_exp(char *to_check, int end)
+static int	ft_exp_aux(char *to_check, int do_exp, char *ref, int *i)
+{
+	if (do_exp == EXIT_SUCCESS)
+		return (EXIT_SUCCESS);
+	*ref = ft_first_quote(to_check, 34, 39);
+	if (*ref == '\0')
+		return (EXIT_SUCCESS);
+	*ref = '\0';
+	*i = 0;
+	return (EXIT_FAILURE);
+}
+
+int	ft_exec_exp(char *to_check, int end, int do_exp)
 {
 	int		i;
 	char	q_ref;
 
-	i = 0;
-	q_ref = ft_first_quote(to_check, 34, 39);
-	if (q_ref == '\0')
+	if (ft_exp_aux(to_check, do_exp, &q_ref, &i) == EXIT_SUCCESS)
 		return (EXIT_SUCCESS);
-	q_ref = '\0';
 	while (i != end && to_check[i])
 	{
 		if (to_check[i] == (char)34 || to_check[i] == (char)39)

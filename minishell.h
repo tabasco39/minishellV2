@@ -33,6 +33,8 @@
 # define RED "\x1b[31m"
 # define RESET "\x1b[0m"
 
+# define MAX_CMD 100
+
 typedef enum e_command
 {
 	argument,
@@ -85,8 +87,10 @@ typedef struct s_exec_iteration
 }							t_exec;
 typedef struct s_var
 {
-	int						current_status;
 	int						status;
+	int						history;
+	int						nb_command;
+	int						current_status;
 	char					*hdoc_line;
 	char					*line;
 	char					**tab_env;
@@ -101,8 +105,7 @@ typedef struct s_var
 int			ft_cd(char *path, t_var *var, char *var_name);
 int			ft_export(t_var *var, char *to_add);
 char		*ft_pwd(void);
-void		ft_exit(t_var *var, unsigned long long end,
-				int status);
+void		ft_exit(t_var *var, long long end);
 void		ft_echo(char *to_print, char option);
 int			ft_unset_envp(t_var *var, char *to_del);
 int			ft_exec_pwd(void);
@@ -111,7 +114,7 @@ int			ft_exec_echo(t_token *start, t_token *end);
 int			ft_exec_cd(t_var *var, t_token *start);
 int			ft_exec_unset(t_var *var, t_token *start,
 				t_token *end);
-void		ft_exec_exit(t_var *var, t_token *start,
+int			ft_exec_exit(t_var *var, t_token *start,
 				t_token *end);
 int			ft_exec_export(t_var *var, t_token *start,
 				t_token *end);
@@ -135,7 +138,7 @@ char		*ft_del_quote(char *word, char *quote);
 char		*ft_get_first_quote(char *str);
 t_token		*ft_create_token(char *token);
 
-char		*ft_expand(t_var *var, char *to_change);
+char		*ft_expand(t_var *var, char *to_change, int do_exp);
 char		*ft_expand_res(t_list *env, char *to_change,
 				int start, int len);
 char		*ft_exp(t_var *var, char *arg, int start,
@@ -149,7 +152,7 @@ int			ft_check_case(char *to_process, char *arg);
 char		*ft_exec_case(t_var *var, char *arg, int *i,
 				int exec_case);
 char		*ft_get_pid(void);
-int			ft_exec_exp(char *to_check, int end);
+int			ft_exec_exp(char *to_check, int end, int do_exp);
 char		*ft_define_quote(char *to_change);
 
 /*============== instructions =================*/
@@ -200,6 +203,8 @@ pid_t		ft_exec_once_builtin(t_instru *tmp, t_var *var,
 t_token		*ft_find_redirection(t_token *token);
 t_token		*ft_find_cmd_token(t_instru *instru);
 t_token		*ft_find_cmd(t_token *start, t_comm to_find);
+int			ft_redir_error(char *check_ambigous,
+				t_token *target, int *output_fd);
 
 /*============= Token control ========================*/
 void		ft_add_token(t_token **head, t_token *new_elem);
@@ -232,8 +237,8 @@ void		ft_utils_count_c(char *p1, unsigned int *i);
 void		ft_edit(char *line, int *i, char *result, int *j);
 void		ft_div_aux(char *result, char div, int *j, int nb);
 void		ft_handle_exit_status(t_var *var);
-void		ft_exit_status(t_token *start, t_var *var,
-				int *status, long long *value);
+void		ft_exit_status(t_token *start, int *status,
+				long long *value, int do_exit);
 int			ft_handle_oldpwd(char *to_change, t_var *var,
 				char *tmp, int show);
 t_token		*ft_find_cmd(t_token *start, t_comm to_find);
@@ -282,4 +287,6 @@ t_var		*ft_get_struct_var(void);
 void		ft_simple_interrupt(int signal, siginfo_t *test, void *i);
 void		ft_interupt_and_exit(int signal);
 void		ft_handle_empty_com(t_instru *tmp, t_var *var);
+int			ft_minishell_history(t_var *all_var, int do_append);
+void		ft_history(t_var *all_var);
 #endif

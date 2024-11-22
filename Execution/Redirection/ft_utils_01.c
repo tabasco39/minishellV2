@@ -12,6 +12,18 @@
 
 #include "../../minishell.h"
 
+int	ft_redir_error(char *check_ambigous, t_token *target, int *output_fd)
+{
+	ft_check_access_directory(check_ambigous, target);
+	if (dup2(*output_fd, STDOUT_FILENO) == -1)
+	{
+		perror("ERROR FOR DUP\n");
+		return (EXIT_FAILURE);
+	}
+	close(*output_fd);
+	return (EXIT_SUCCESS);
+}
+
 void	ft_free_char(char **tmp)
 {
 	if (*tmp)

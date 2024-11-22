@@ -12,16 +12,32 @@
 
 #include "../../minishell.h"
 
-void	ft_exit_status(t_token *start, t_var *var, int *status,
-		long long *value)
+void	ft_exit_status(t_token *start, int *status,
+		long long *value, int do_exit)
 {
+	t_var	*var;
+
+	var = ft_get_struct_var();
 	if (ft_valid_exit(start->token, *value) == EXIT_FAILURE)
+	{
 		*status = EXIT_FAILURE;
-	if (*status == EXIT_FAILURE)
-		ft_exit(var, 2, EXIT_FAILURE);
+		ft_putendl_fd("minishell: error numeric arg required", 2);
+	}
 	if (*value < 0 || *value > 255)
 		*value = *value % 256;
-	ft_exit(var, *value, EXIT_SUCCESS);
+	if (do_exit == EXIT_SUCCESS)
+	{
+		if (*status == EXIT_FAILURE)
+			ft_exit(var, 2);
+		ft_exit(var, *value);
+	}
+	else
+	{
+		if (*status == EXIT_FAILURE)
+			var->status = 2;
+		else
+			var->status = *value;
+	}
 }
 
 int	ft_handle_oldpwd(char *to_change, t_var *var, char *tmp, int show)

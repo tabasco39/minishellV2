@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:02:23 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/21 10:26:09 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/22 10:41:21 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@ void	ft_dup_fd_not_start_instru(t_exec it, int *input_fd)
 {
 	if (it.i != it.start)
 	{
-		dup2(*input_fd, STDIN_FILENO);
+		if (dup2(*input_fd, STDIN_FILENO) == -1)
+		{
+			perror("ERROR FOR DUP\n");
+			return ;
+		}
 		close(*input_fd);
 	}
 }
@@ -25,7 +29,11 @@ void	ft_dup_fd_end_instru(t_exec it, int has_redirection)
 {
 	if (it.i != it.end && has_redirection == 0)
 	{
-		dup2(it.pipefd[1], STDOUT_FILENO);
+		if (dup2(it.pipefd[1], STDOUT_FILENO) == -1)
+		{
+			perror("ERROR FOR DUP\n");
+			return ;
+		}
 		close(it.pipefd[1]);
 		if (it.pipefd[0] != -1)
 			close (it.pipefd[0]);

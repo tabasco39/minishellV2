@@ -60,8 +60,6 @@ void	ft_interupt_and_exit(int signal)
 	if (signal == SIGINT)
 	{
 		ft_free_minishell(all);
-		rl_on_new_line();
-		ft_putchar_fd('\n', STDOUT_FILENO);
 		exit (130);
 	}
 }

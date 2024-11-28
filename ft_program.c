@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 11:38:32 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/22 11:16:15 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:49:22 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,15 @@ void	ft_simple_interrupt(int signal, siginfo_t *proc, void *i)
 	if (signal == SIGINT && proc->si_pid != 0)
 	{
 		all->status = 130;
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("\0", 0);
 		rl_redisplay();
+	}
+	else if (proc->si_pid == 0)
+	{
+		ft_putendl_fd("", STDOUT_FILENO);
+		rl_on_new_line();
 	}
 	i++;
 }
@@ -46,8 +51,13 @@ t_var	*ft_get_struct_var(void)
 	return (&all);
 }
 
-void	ft_init_var(t_var *all, char **envp)
+int	ft_init_var(t_var *all, char **envp, int argc, char **argv)
 {
+	if (argc != 1 && argv)
+	{
+		ft_putstr_fd("error : no arg need\n", 2);
+		return (EXIT_FAILURE);
+	}
 	all->status = 0;
 	all->nb_command = 0;
 	all->token = NULL;
@@ -55,6 +65,7 @@ void	ft_init_var(t_var *all, char **envp)
 	all->line = NULL;
 	all->instru = NULL;
 	all->hdoc_line = NULL;
+	all->path_history = "/tmp/.minishell_history";
 	all->current_status = 0;
 	ft_create_envp(&all->env, envp);
 	all->tab_env = ft_new_envp(all->env);
@@ -62,28 +73,34 @@ void	ft_init_var(t_var *all, char **envp)
 	all->iteration->redir_in_fd = STDIN_FILENO;
 	all->iteration->pipefd[0] = -1;
 	all->iteration->pipefd[1] = -1;
+	all->iteration->here_doc_fd[0] = -1;
+	all->iteration->here_doc_fd[1] = -1;
 	all->history = ft_minishell_history(all, EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_var	*all_var;
+	int		i;
 
 	all_var = ft_get_struct_var();
-	if (argc != 1 && argv && envp)
-	{
-		ft_putstr_fd("error : no arg need\n", 2);
+	if (ft_init_var(all_var, envp, argc, argv) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	}
-	ft_init_var(all_var, envp);
 	while (1)
 	{
+		i = 0;
 		ft_handle_signal();
 		all_var->line = readline(GREEN"Minishell$> "RESET);
 		if (all_var->line == NULL)
 			ft_exit(all_var, all_var->status);
-		ft_history(all_var);
-		ft_debug(all_var);
+		while ((all_var->line[i] >= 9 && all_var->line[i] <= 13))
+			i++;
+		if (all_var->line[i] != '\0')
+		{
+			ft_history(all_var);
+			ft_minishell_core(all_var);
+		}
 	}
 	return (all_var->status);
 }

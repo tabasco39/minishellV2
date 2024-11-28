@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 10:02:09 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/21 09:40:36 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/28 08:42:11 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@
 # include <errno.h>
 # include <unistd.h>
 
-# define GREEN "\x1b[32m"
-# define BLUE "\x1b[34m"
-# define PURPLE "\x1b[35m"
-# define RED "\x1b[31m"
-# define RESET "\x1b[0m"
-
-# define MAX_CMD 100
+# define RED "\001\e[0;31m\002"
+# define GREEN "\001\e[0;32m\002"
+# define CYAN "\001\e[0;36m\002"
+# define RESET "\001\e[0m\002"
+# define MAX_CMD 500
 
 typedef enum e_command
 {
@@ -91,6 +89,7 @@ typedef struct s_var
 	int						history;
 	int						nb_command;
 	int						current_status;
+	char					*path_history;
 	char					*hdoc_line;
 	char					*line;
 	char					**tab_env;
@@ -101,7 +100,6 @@ typedef struct s_var
 	t_exec					*iteration;
 }							t_var;
 
-/*========================= Bultins =======================*/
 int			ft_cd(char *path, t_var *var, char *var_name);
 int			ft_export(t_var *var, char *to_add);
 char		*ft_pwd(void);
@@ -127,8 +125,6 @@ int			ft_exec_cd_util(t_var *var, t_token *s, char *home,
 				char *old);
 void		ft_display_export(t_list *env);
 void		ft_opt_echo(t_token **start);
-
-/*========== Parsing =================*/
 int			ft_div_by_token(t_var *var);
 void		ft_redirection(t_token *current, t_token *nxt);
 void		ft_affect_dollar(t_token *current);
@@ -143,9 +139,7 @@ char		*ft_expand_res(t_list *env, char *to_change,
 				int start, int len);
 char		*ft_exp(t_var *var, char *arg, int start,
 				char *status);
-char		*ft_parse_final(t_var *var, char *to_change);
 void		ft_parse_sys(t_token *current, t_token *nxt);
-int			ft_do_expand(char *line);
 char		*ft_expand_to_value(t_list *env, char *to_change);
 int			ft_get_dollar_key(char *to_change, int start);
 int			ft_check_case(char *to_process, char *arg);
@@ -155,16 +149,12 @@ char		*ft_get_pid(void);
 int			ft_exec_exp(char *to_check, int end, int do_exp);
 char		*ft_define_quote(char *to_change);
 
-/*============== instructions =================*/
 int			ft_count_token_in_instru(t_instru *current);
 void		ft_set_instru(t_instru **test, t_token *head);
 
-/*=============== valid instruction ============*/
 int			ft_valid_exit(char *ref, long long value);
 int			ft_valid_redirect_input(t_token *token);
 char		*ft_rm_case(int q_case);
-
-/*=================== Execution =============================*/
 void		ft_exec(t_instru *instruction, t_var *var);
 void		ft_check_access_directory(char *check_ambigous,
 				t_token *target);
@@ -205,19 +195,16 @@ t_token		*ft_find_cmd_token(t_instru *instru);
 t_token		*ft_find_cmd(t_token *start, t_comm to_find);
 int			ft_redir_error(char *check_ambigous,
 				t_token *target, int *output_fd);
+int			ft_is_ambigous(t_comm type, char *to_check, int start);
 
-/*============= Token control ========================*/
 void		ft_add_token(t_token **head, t_token *new_elem);
 void		ft_command_setup(t_token **head);
 
-/*================== Clear =======================*/
 void		ft_free_all(char **split);
 void		ft_lstclear_shell(t_token **head);
 void		ft_lstclear_instru(t_instru **instru,
 				t_token **head);
 void		ft_free_minishell(t_var *all_var);
-
-/*==================== Utils =====================*/
 int			ft_check_cmd(char *token);
 int			ft_max_value(int val1, int val2);
 int			ft_find_char(char *token, char to_find);
@@ -254,8 +241,9 @@ void		ft_free_char(char **tmp);
 int			ft_free_in_ambigous(t_var *var,
 				char *check_ambigous);
 void		ft_close_pipe(t_var *var);
-
-/*====================== Env ====================*/
+int			ft_is_open(char *to_check, char quote, int end);
+void		ft_rl_cut(t_var *var, char *to_add);
+int			ft_init_pipe_hd(t_instru *tmp, t_var *var);
 void		ft_create_envp(t_list **all_env, char **envp);
 int			ft_export_aux(t_var *var, char *to_add);
 int			ft_unset_utils(t_var *var, t_list **tmp,
@@ -267,22 +255,14 @@ void		ft_upgrade_env(t_var *var, char *var_name,
 				char *new_val);
 int			ft_valid_export(char *to_add);
 
-/*====================== Debug =========================*/
 void		ft_minishell_core(t_var *var);
-void		ft_disp_dchar(char **str);
 void		ft_display_env(t_list **env, char *before);
-void		ft_display_token(t_token *token);
-void		ft_display_instru(t_instru *head);
-void		ft_debug(t_var *var);
-/*====================== Error =========================*/
+
 void		ft_display_error(char *error, char *token);
 void		ft_display_error_without_exit(char *error,
 				char *token, int status, t_var *var);
-
-/*====================== Special char ===================*/
 char		*ft_pipes_valid(t_var *var, char *line);
 char		*ft_expand_hdoc(char *to_change, int *bool);
-void		ft_debug(t_var *var);
 t_var		*ft_get_struct_var(void);
 void		ft_simple_interrupt(int signal, siginfo_t *test, void *i);
 void		ft_interupt_and_exit(int signal);

@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:29:30 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/22 11:49:15 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:10:17 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_check_access_directory(char *check_ambigous, t_token *target)
 	if (check_ambigous && (fd == -1 && access(target->next->token, W_OK) == -1
 			&& target->command != heredoc))
 	{
-		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("minishell : ", 2);
 		ft_putstr_fd(target->next->token, 2);
 		ft_putendl_fd(": Permission denied ", 2);
 		if (fd != -1)
@@ -53,7 +53,7 @@ void	ft_handle_redirection_error(char **check_ambigous, t_token *target,
 			ft_putstr_fd("minishell : error : Syntax error near ", 2);
 			ft_putendl_fd(target->token, 2);
 			ft_free_minishell(var);
-			exit(1);
+			exit(2);
 		}
 	}
 }
@@ -61,26 +61,30 @@ void	ft_handle_redirection_error(char **check_ambigous, t_token *target,
 char	*ft_check_ambigous(t_var *var, t_token *token)
 {
 	char	*tmp;
-	char	*value;
+	char	*del_quote;
+	int		is_ambigue;
 
-	value = ft_strdup(token->token);
-	tmp = ft_expand(var, value, EXIT_FAILURE);
+	is_ambigue = ft_is_ambigous(token->command,
+			token->token, ft_find_char(token->token, '$'));
+	tmp = ft_expand(var, ft_strdup(token->token), EXIT_FAILURE);
+	del_quote = ft_del_quote(tmp, "\"\'");
+	free(tmp);
 	if (token && token->prev && token->prev->command != heredoc)
 	{
-		if (token->command == dollar)
+		if (is_ambigue == 1)
 		{
-			if (tmp[0] == '\0' || ft_find_char(tmp, ' ') != -1)
+			if (del_quote[0] == '\0' || ft_find_char(del_quote, ' ') != -1)
 			{
 				ft_putstr_fd("minishell: ", 2);
 				ft_putendl_fd("ambigous redirect", 2);
-				free(tmp);
+				free(del_quote);
 				return (NULL);
 			}
 			else
-				return (tmp);
+				return (del_quote);
 		}
 	}
-	return (tmp);
+	return (del_quote);
 }
 
 int	ft_valid_redir(t_token *target)

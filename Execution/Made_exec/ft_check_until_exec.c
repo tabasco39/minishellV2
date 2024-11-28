@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:51:33 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/20 14:25:13 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/28 08:40:56 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	ft_check_heredoc(t_token *target, t_exec *iteration, t_var *var)
 	{
 		var->current_status = ft_simul_heredoc(target,
 				iteration->here_doc_fd[1], var);
-		close(iteration->here_doc_fd[1]);
+		if (iteration->here_doc_fd[1] != -1)
+			close(iteration->here_doc_fd[1]);
 		if (var->current_status != EXIT_SUCCESS)
 		{
 			var->status = var->current_status;
@@ -69,10 +70,18 @@ void	ft_check_redir_input(t_exec *iteration, t_token *curr, t_var *var)
 	}
 }
 
+int	ft_do_pipe_error(t_token *target)
+{
+	if (target && target->command == e_pipe)
+		return (EXIT_SUCCESS);
+	return (EXIT_FAILURE);
+}
+
 int	ft_check_before_exec(t_instru *tmp, t_token *target, t_exec *iteration,
 		t_var *var)
 {
 	t_token	*curr;
+	t_token	*get_pipe;
 
 	curr = ft_find_redirection(tmp->start);
 	if (ft_check_heredoc(curr, iteration, var) == EXIT_FAILURE)
@@ -83,13 +92,14 @@ int	ft_check_before_exec(t_instru *tmp, t_token *target, t_exec *iteration,
 	{
 		if (ft_valid_redir(curr) == EXIT_FAILURE)
 		{
-			ft_display_error_without_exit("Syntax error near ", curr->token,
+			ft_display_error_without_exit("Syntax error near", curr->token,
 				2, var);
 			return (EXIT_FAILURE);
 		}
 		curr = curr->next;
 	}
-	if (ft_is_pipes_closed(var->line) == -1)
+	get_pipe = ft_find_cmd(tmp->start, e_pipe);
+	if (ft_is_pipes_closed(var->line) == -1 && ft_do_pipe_error(get_pipe) == 0)
 	{
 		ft_display_error_without_exit("syntax error near ", "|", 2, var);
 		return (EXIT_FAILURE);

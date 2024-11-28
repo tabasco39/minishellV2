@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 08:57:29 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/19 09:34:12 by aelison          ###   ########.fr       */
+/*   Updated: 2024/11/25 10:08:56 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,25 @@ static char	*ft_expand_aux(t_var *var, char *to_change, int *i)
 	return (res);
 }
 
+static char	*ft_value(t_var *var, char *check, int *ind_dollar)
+{
+	char	*result;
+	int		i;
+
+	result = NULL;
+	i = (*ind_dollar) - 1;
+	while (i >= 0 && (check[i] == ' ' || check[i] == '\''
+			|| check[i] == '\"' || check[i] == '$'))
+		i--;
+	if (i < 0)
+		i = 0;
+	if (i >= 0 && check[i] != '<' && check[i] != '>')
+		result = ft_expand_aux(var, check, ind_dollar);
+	else
+		result = ft_strdup("$");
+	return (result);
+}
+
 static char	*ft_loop(t_var *var, char *to_change, int do_exp)
 {
 	int		i;
@@ -58,9 +77,8 @@ static char	*ft_loop(t_var *var, char *to_change, int do_exp)
 		if (to_change[i] == '$'
 			&& ft_exec_exp(to_change, i, do_exp) == EXIT_SUCCESS)
 		{
-			tmp = ft_expand_aux(var, to_change, &i);
-			if (tmp)
-				result = ft_strjoin_shell(result, tmp);
+			tmp = ft_value(var, to_change, &i);
+			result = ft_strjoin_shell(result, tmp);
 			free(tmp);
 		}
 		else
@@ -76,18 +94,8 @@ static char	*ft_loop(t_var *var, char *to_change, int do_exp)
 
 char	*ft_expand(t_var *var, char *to_change, int do_exp)
 {
-	int		i;
-	int		ind_hdoc;
 	char	*result;
 
-	i = 0;
-	ind_hdoc = ft_find_char(to_change, '<');
-	if (ind_hdoc != -1 && to_change[ind_hdoc + 1] == '<')
-	{
-		result = ft_strdup(to_change);
-		free(to_change);
-		return (result);
-	}
 	result = ft_loop(var, to_change, do_exp);
 	free(to_change);
 	return (result);

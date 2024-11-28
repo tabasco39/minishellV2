@@ -34,7 +34,8 @@ void	ft_dup_fd_end_instru(t_exec it, int has_redirection)
 			perror("ERROR FOR DUP\n");
 			return ;
 		}
-		close(it.pipefd[1]);
+		if (it.pipefd[1] != -1)
+			close(it.pipefd[1]);
 		if (it.pipefd[0] != -1)
 			close (it.pipefd[0]);
 	}

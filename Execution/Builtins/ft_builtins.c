@@ -71,10 +71,10 @@ char	*ft_pwd(void)
 	result = getcwd(directory, 1024);
 	if (result == NULL)
 	{
-		ft_putstr_fd("error : getcwd\n", 2);
-		return (NULL);
+		ft_putstr_fd("minishell: error: getcwd fail\n", 2);
+		return (result);
 	}
-	ft_putendl_fd(result, STDOUT_FILENO);
+	ft_putendl_fd(directory, STDOUT_FILENO);
 	return (result);
 }
 

@@ -64,8 +64,10 @@ int	ft_valid_export(char *to_add)
 		ft_putendl_fd("minishell: error export not valid key", 2);
 		return (EXIT_FAILURE);
 	}
-	while (to_add[i] != '=')
+	while (to_add[i])
 	{
+		if (to_add[i] == '=')
+			break ;
 		if (to_add[i] != '_' && ft_isalnum(to_add[i]) == 0)
 		{
 			ft_putendl_fd("minishell: error export not valid key", 2);
@@ -87,11 +89,15 @@ int	ft_exec_unset(t_var *var, t_token *start, t_token *end)
 	{
 		while (start != end && start)
 		{
-			ft_unset_envp(var, start->token);
+			if (ft_find_char(start->token, '=') == -1)
+				ft_unset_envp(var, start->token);
 			start = start->next;
 		}
-		if (start)
-			result = ft_unset_envp(var, start->token);
+		if (start && (start->command == argument || start->command == dollar))
+		{
+			if (ft_find_char(start->token, '=') == -1)
+				result = ft_unset_envp(var, start->token);
+		}
 		else
 			ft_putchar_fd('\n', 1);
 	}

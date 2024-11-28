@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:21:06 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/22 08:10:13 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:20:55 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_handle_prompt_heredoc(t_var *var, t_token *target, int *bool)
 			free(tmp);
 			while (1)
 			{
-				buffer = readline(PURPLE"HDOC$> "RESET);
+				buffer = readline(RED"HDOC$> "RESET);
 				if (ft_join_result(&buffer, target, &var->hdoc_line)
 					== EXIT_FAILURE)
 					break ;
@@ -109,7 +109,7 @@ int	ft_simul_heredoc(t_token *target, int hd, t_var *var)
 	{
 		signal(SIGINT, ft_interupt_and_exit);
 		ft_get_heredoc_result(target, hd, var);
-		signal(SIGINT, SIG_IGN);
+		signal(SIGINT, SIG_DFL);
 	}
 	waitpid(pid, &var->current_status, 0);
 	ft_handle_exit_status(var);

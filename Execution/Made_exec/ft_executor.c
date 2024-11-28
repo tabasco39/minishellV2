@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:43:40 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/22 11:05:23 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/28 08:41:23 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ pid_t	ft_exec_all_instru(t_instru *tmp, t_exec *iteration, int input_fd,
 			close(input_fd);
 		if (iteration->i != iteration->end)
 		{
-			close(iteration->pipefd[1]);
+			if (iteration->pipefd[1] != -1)
+				close(iteration->pipefd[1]);
 			input_fd = iteration->pipefd[0];
 		}
 		iteration->i++;
@@ -128,7 +129,7 @@ void	ft_exec(t_instru *tmp, t_var *var)
 	ft_init_exec(var->iteration, var);
 	if (ft_handle_unclosed_pipe(var, &tmp, var->iteration) == EXIT_FAILURE)
 		return ;
-	if (pipe(var->iteration->here_doc_fd) == -1)
+	if (ft_init_pipe_hd(tmp, var) == EXIT_FAILURE)
 		return ;
 	if (ft_check_before_exec(tmp, target, var->iteration, var) == EXIT_FAILURE)
 		return ;

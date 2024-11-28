@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 09:15:53 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/15 09:14:12 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/27 13:34:13 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,36 @@ long long	ft_atoi_shell(char *str, int *status)
 	return (result * sign);
 }
 
+static int	ft_pipe_aux(char *to_check)
+{
+	int	i;
+
+	i = 0;
+	while (to_check[i] >= (char)9 && to_check[i] <= (char)13)
+		i++;
+	if (to_check[i] == '\0')
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
 char	*ft_pipes_valid(t_var *var, char *line)
 {
 	char	*to_add;
+	char	*tmp;
 
 	while (ft_is_pipes_closed(line) == EXIT_FAILURE)
 	{
-		to_add = readline(BLUE"PIPE> "RESET);
-		if (!to_add)
-		{
-			ft_putendl_fd("minishell: syntax error unexpected EOF", 2);
-			ft_exit(var, 2);
-		}
+		to_add = readline(CYAN"PIPE> "RESET);
+		ft_rl_cut(var, to_add);
 		if (ft_is_pipes_closed(to_add) == -1)
 		{
 			ft_putendl_fd("syntax error near '|' ", 2);
 			return (line);
 		}
-		if (to_add)
+		if (to_add && to_add[0] != '\0' && ft_pipe_aux(to_add) == EXIT_SUCCESS)
 		{
+			tmp = ft_strtrim(to_add, " \n\t\v\f\r");
+			to_add = tmp;
 			line = ft_strjoin_shell(line, " ");
 			line = ft_strjoin_shell(line, to_add);
 			add_history(line);

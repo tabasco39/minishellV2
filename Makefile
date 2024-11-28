@@ -4,7 +4,7 @@ LIB = ./libft/libft.a
 
 SRC = ft_program.c \
 	  ft_history.c \
-	  debug.c \
+	  ft_minishell_core.c \
 	  libft/get_next_line/get_next_line.c \
   	  libft/get_next_line/get_next_line_utils.c \
 	  Utils/ft_utils.c \
@@ -54,15 +54,9 @@ OBJ = $(SRC:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g
-
-LEAKS = --suppressions=readline.supp  --track-fds=yes --leak-check=full --show-leak-kinds=all
+CFLAGS = -Wall -Wextra -Werror
 
 all: ${NAME}
-
-grind: ${NAME}
-	clear
-	valgrind ${LEAKS} ./${NAME}
 
 ${NAME}: ${OBJ} ${LIB}
 	${CC} ${CFLAGS} ${OBJ} ${LIB} -lreadline -o ${NAME}

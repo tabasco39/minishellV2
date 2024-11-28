@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:09:13 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/18 10:56:37 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:45:45 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,18 @@ static int	ft_check_double_pipe(char *to_check)
 
 int	ft_is_pipes_closed(char *to_check)
 {
-	size_t	len;
+	int	len;
 
 	if (!to_check)
+		return (EXIT_FAILURE);
+	if (to_check && to_check[0] == '\0')
 		return (EXIT_FAILURE);
 	len = ft_strlen(to_check);
 	if (ft_check_double_pipe(to_check) == EXIT_FAILURE)
 		return (-1);
-	while (--len != 0)
+	while (--len >= 0)
 	{
-		if (to_check[len] == '|')
+		if (to_check[len] && to_check[len] == '|')
 		{
 			len++;
 			while (to_check[len])

@@ -114,12 +114,12 @@ char	*ft_getvar(t_list *env, char *var)
 	size_t	var_len;
 	size_t	i;
 
-	i = 0;
 	if (!env || !var)
 		return (NULL);
 	var_len = ft_strlen(var);
 	while (env)
 	{
+		i = 0;
 		tmp = (char *)env->content;
 		if (ft_strncmp(tmp, var, var_len) == 0)
 		{

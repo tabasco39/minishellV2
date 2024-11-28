@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 10:34:47 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/21 09:07:42 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/25 10:16:14 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	ft_div_by_token_aux(char *before, char *split, t_token **head)
 {
 	char	*tmp;
 
-	if (before && ft_strncmp(before, "<<", 2) == 0)
+	if (before && (ft_strncmp(before, "<", 1) == 0
+			|| ft_strncmp(before, ">", 1) == 0))
 	{
 		ft_add_token(head, ft_create_token(split));
 		return ;

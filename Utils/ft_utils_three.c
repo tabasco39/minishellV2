@@ -83,3 +83,12 @@ char	*ft_itoa_shell(long long nb)
 		result = positif(result, nb, len - 1);
 	return (result);
 }
+
+void	ft_rl_cut(t_var *var, char *to_add)
+{
+	if (!to_add)
+	{
+		ft_putendl_fd("minishell: syntax error unexpected EOF", 2);
+		ft_exit(var, 2);
+	}
+}

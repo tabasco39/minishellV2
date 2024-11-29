@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 08:57:29 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/25 10:08:56 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 10:15:09 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	ft_get_case(char *arg, int i)
 {
 	if (ft_isalpha(arg[i]) != 0 || arg[i] == '_')
 		return (0);
-	else if (ft_check_case("@$!?~%/+0123456789", arg + i) == EXIT_SUCCESS)
+	else if (ft_check_case("@$!?*0123456789", arg + i) == EXIT_SUCCESS)
 		return (1);
 	return (2);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_pid.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelison <aelison@student.42antananarivo.m  +#+  +:+       +#+        */
+/*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 09:27:10 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/18 10:05:09 by aelison          ###   ########.fr       */
+/*   Updated: 2024/11/29 10:17:53 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ char	*ft_exp(t_var *var, char *arg, int start, char *status)
 		result = ft_get_pid();
 	else if (arg[start] == '?')
 		result = ft_strdup(status);
+	else if (arg[start] == '0')
+		result = ft_strdup("minishell");
 	else
 		result = ft_expand_res(var->env, arg, start, 1);
 	return (result);

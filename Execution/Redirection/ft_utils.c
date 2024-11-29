@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:29:30 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/27 15:10:17 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 12:56:54 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	ft_check_access_directory(char *check_ambigous, t_token *target)
 		ft_free_minishell(all_var);
 		exit(EXIT_FAILURE);
 	}
-	close(fd);
+	if (fd != -1)
+		close(fd);
 }
 
 void	ft_handle_redirection_error(char **check_ambigous, t_token *target,
@@ -124,7 +125,8 @@ int	ft_valid_redirect_input(t_token *token)
 			ft_putendl_fd(": No such file or directory", 2);
 			return (EXIT_FAILURE);
 		}
-		close(fd);
+		if (fd != -1)
+			close(fd);
 	}
 	return (EXIT_SUCCESS);
 }

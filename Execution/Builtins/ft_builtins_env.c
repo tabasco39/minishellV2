@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 11:04:46 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/19 12:06:51 by aelison          ###   ########.fr       */
+/*   Updated: 2024/11/29 10:43:55 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_exec_env(t_var *var, t_token *nxt)
 
 	if (nxt)
 	{
-		ft_putendl_fd("minishell: builtins env error: nor arg", 2);
+		ft_putendl_fd("minishell: builtins env error: no arg", 2);
 		return (EXIT_FAILURE);
 	}
 	getcwd(buffer, 1024);

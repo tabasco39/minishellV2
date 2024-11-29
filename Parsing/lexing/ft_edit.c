@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 05:24:56 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/28 08:43:07 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 08:53:20 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	ft_div_aux(char *result, char div, int *j, int nb)
 
 void	ft_edit(char *line, int *i, char *result, int *j)
 {
-	if (line[*i + 1] == '<' && line[*i] == '<' && line[*i + 1])
+	if (line[*i + 1] && line[*i + 1] == '<' && line[*i] == '<' )
 	{
 		ft_div_aux(result, line[*i], j, 2);
 		(*i)++;
 	}
-	else if (line[*i + 1] == '>' && line[*i] == '>' && line[*i + 1])
+	else if (line[*i + 1] && line[*i + 1] == '>' && line[*i] == '>')
 	{
 		ft_div_aux(result, line[*i], j, 2);
 		(*i)++;

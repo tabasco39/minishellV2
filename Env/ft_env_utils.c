@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelison <aelison@student.42antananarivo.m  +#+  +:+       +#+        */
+/*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 08:19:16 by aelison           #+#    #+#             */
-/*   Updated: 2024/10/21 07:37:47 by aelison          ###   ########.fr       */
+/*   Updated: 2024/11/29 07:48:16 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ft_upgrade_env(t_var *var, char *var_name, char *new_val)
 	t_list	*var_char;
 
 	var_char = ft_move_to_target(var->env, var_name);
-	if (var_char)
+	if (var_char && new_val)
 	{
 		free(var_char->content);
 		var_char->content = ft_strjoin(var_name, "=");

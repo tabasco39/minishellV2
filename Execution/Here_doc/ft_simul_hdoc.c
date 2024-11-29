@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:21:06 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/25 12:20:55 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:06:34 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void	ft_get_heredoc_result(t_token *target, int hd, t_var *var)
 		else
 			ft_putstr_fd(var->hdoc_line, hd);
 	}
-	close(hd);
+	if (hd != -1)
+		close(hd);
 	ft_free_minishell(var);
 	exit(EXIT_SUCCESS);
 }
@@ -109,7 +110,6 @@ int	ft_simul_heredoc(t_token *target, int hd, t_var *var)
 	{
 		signal(SIGINT, ft_interupt_and_exit);
 		ft_get_heredoc_result(target, hd, var);
-		signal(SIGINT, SIG_DFL);
 	}
 	waitpid(pid, &var->current_status, 0);
 	ft_handle_exit_status(var);

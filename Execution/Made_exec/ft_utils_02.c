@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:10:55 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/21 10:48:43 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 11:40:20 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,22 @@ int	ft_exec_once(t_instru *tmp, t_var *var)
 			return (EXIT_SUCCESS);
 	}
 	return (EXIT_FAILURE);
+}
+
+void	ft_check_point(t_instru *tmp, t_var *var)
+{
+	if (ft_strncmp(tmp->start->token, ".", ft_strlen(tmp->start->token)) == 0
+		&& tmp->start->command == in_sys)
+	{
+		ft_putendl_fd("minishell : filename argument required", 2);
+		ft_free_minishell(var);
+		exit (2);
+	}
+	if (ft_strncmp(tmp->start->token, "..", ft_strlen(tmp->start->token)) == 0
+		&& tmp->start->command == in_sys)
+	{
+		ft_putendl_fd("minishell : command not found", 2);
+		ft_free_minishell(var);
+		exit (127);
+	}
 }

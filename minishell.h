@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 10:02:09 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/28 08:42:11 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 11:30:51 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,4 +269,5 @@ void		ft_interupt_and_exit(int signal);
 void		ft_handle_empty_com(t_instru *tmp, t_var *var);
 int			ft_minishell_history(t_var *all_var, int do_append);
 void		ft_history(t_var *all_var);
+void		ft_check_point(t_instru *tmp, t_var *var);
 #endif

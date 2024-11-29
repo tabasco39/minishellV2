@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 11:38:32 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/25 12:49:22 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:17:35 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,14 @@ void	ft_simple_interrupt(int signal, siginfo_t *proc, void *i)
 	}
 	else if (proc->si_pid == 0)
 	{
-		ft_putendl_fd("", STDOUT_FILENO);
-		rl_on_new_line();
+		if (ft_find_cmd(all->token, heredoc) != NULL)
+		{
+			ft_putstr_fd("^C", 1);
+			write(STDOUT_FILENO, "\n", 1);
+			rl_on_new_line();
+		}
+		else if (all->instru->next)
+			write(STDOUT_FILENO, "\n", 1);
 	}
 	i++;
 }

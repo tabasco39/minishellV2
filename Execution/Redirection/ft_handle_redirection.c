@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:32:24 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/25 10:24:31 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 12:54:46 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	ft_handle_heredoc_redirection(int *hd)
 {
 	if (dup2(*hd, STDIN_FILENO) == -1)
 		return ;
-	close(*hd);
+	if (*hd != -1)
+		close(*hd);
 }
 
 void	ft_handle_redirection(t_var *var, t_token *target,
@@ -102,7 +103,8 @@ void	ft_handle_redirection(t_var *var, t_token *target,
 				input_redir, var) == EXIT_FAILURE)
 			exit (EXIT_FAILURE);
 		ft_handle_heredoc_redirection(hd);
-		close(*hd);
+		if (*hd != -1)
+			close(*hd);
 		if (target->is_end == 1)
 			break ;
 		target = target->next;

@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:43:40 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/28 08:41:23 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 15:38:59 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,15 @@ pid_t	ft_exec_current_instru(t_instru *tmp, t_exec *it, int input_fd,
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
+		ft_check_point(tmp, var);
 		target = ft_find_cmd_token(tmp);
 		ft_dup_fd_not_start_instru(*it, &input_fd);
 		if (target != NULL)
 		{
 			ft_handle_redirection(var, target,
 				&it->here_doc_fd[0], &it->redir_in_fd);
-			has_redirection = 1;
+			if (target->command == redirect_output || target->command == append_redirect_output)
+				has_redirection = 1;
 		}
 		ft_dup_fd_end_instru(*it, has_redirection);
 		ft_handle_empty_com(tmp, var);

@@ -26,9 +26,9 @@ static int	ft_check_cmd_aux(char *token, size_t len)
 		return (unset);
 	if (ft_strncmp(token, "exit", ft_max_value(len, ft_strlen("exit"))) == 0)
 		return (e_exit);
-	if (ft_strncmp(token, "-", 1) == 0)
+	if (ft_strncmp(token, "-", ft_strlen(token)) == 0)
 		return (option);
-	if (ft_strncmp(token, "|", 1) == 0)
+	if (ft_strncmp(token, "|", ft_strlen(token)) == 0)
 		return (e_pipe);
 	return (not_comm);
 }
@@ -39,18 +39,18 @@ int	ft_check_cmd(char *token)
 	size_t	len;
 
 	len = ft_strlen(token);
-	if (ft_strncmp(token, "$?", 2) == 0)
+	if (ft_strncmp(token, "$?", ft_max_value(len, ft_strlen("cd"))) == 0)
 		return (question);
 	if (ft_strncmp(token, "export", ft_max_value(len,
 				ft_strlen("export"))) == 0)
 		return (e_export);
-	if (ft_strncmp(token, "<<", 2) == 0)
+	if (ft_strncmp(token, "<<", ft_max_value(len, ft_strlen("cd"))) == 0)
 		return (heredoc);
-	if (ft_strncmp(token, ">>", 2) == 0)
+	if (ft_strncmp(token, ">>", ft_max_value(len, ft_strlen("cd"))) == 0)
 		return (append_redirect_output);
-	if (ft_strncmp(token, ">", 1) == 0)
+	if (ft_strncmp(token, ">", ft_max_value(len, ft_strlen("cd"))) == 0)
 		return (redirect_output);
-	if (ft_strncmp(token, "<", 1) == 0)
+	if (ft_strncmp(token, "<", ft_max_value(len, ft_strlen("cd"))) == 0)
 		return (redirect_input);
 	res = ft_check_cmd_aux(token, len);
 	return (res);
@@ -72,10 +72,12 @@ t_token	*ft_create_token(char *token)
 	return (result);
 }
 
-void	ft_add_token(t_token **head, t_token *new_elem)
+void	ft_add_token(t_token **head, t_token *new_elem, int is_arg)
 {
 	t_token	*last;
 
+	if (is_arg == EXIT_SUCCESS)
+		new_elem->command = argument;
 	if (*head == NULL)
 		*head = new_elem;
 	else

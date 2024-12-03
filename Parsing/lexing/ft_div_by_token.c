@@ -15,15 +15,21 @@
 void	ft_div_by_token_aux(char *before, char *split, t_token **head)
 {
 	char	*tmp;
+	int		is_arg;
 
+	is_arg = EXIT_FAILURE;
+	if (ft_find_char(split, '\'') != -1)
+		is_arg = EXIT_SUCCESS;
+	if (ft_find_char(split, '\"') != -1)
+		is_arg = EXIT_SUCCESS;
 	if (before && (ft_strncmp(before, "<", 1) == 0
 			|| ft_strncmp(before, ">", 1) == 0))
 	{
-		ft_add_token(head, ft_create_token(split));
+		ft_add_token(head, ft_create_token(split), is_arg);
 		return ;
 	}
 	tmp = ft_define_quote(split);
-	ft_add_token(head, ft_create_token(tmp));
+	ft_add_token(head, ft_create_token(tmp), is_arg);
 	free(tmp);
 }
 

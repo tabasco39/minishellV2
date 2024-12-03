@@ -197,7 +197,7 @@ int			ft_redir_error(char *check_ambigous,
 				t_token *target, int *output_fd);
 int			ft_is_ambigous(t_comm type, char *to_check, int start);
 
-void		ft_add_token(t_token **head, t_token *new_elem);
+void		ft_add_token(t_token **head, t_token *new_elem, int is_arg);
 void		ft_command_setup(t_token **head);
 
 void		ft_free_all(char **split);

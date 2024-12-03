@@ -26,7 +26,7 @@ static int	ft_check_cmd_aux(char *token, size_t len)
 		return (unset);
 	if (ft_strncmp(token, "exit", ft_max_value(len, ft_strlen("exit"))) == 0)
 		return (e_exit);
-	if (ft_strncmp(token, "-", ft_strlen(token)) == 0)
+	if (ft_strncmp(token, "-", 1) == 0)
 		return (option);
 	if (ft_strncmp(token, "|", ft_strlen(token)) == 0)
 		return (e_pipe);

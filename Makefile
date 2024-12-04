@@ -54,9 +54,15 @@ OBJ = $(SRC:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
+
+LEAKS = --leak-check=full --track-origins=yes --track-fds=yes --show-leak-kinds=all --suppressions=readline.supp
 
 all: ${NAME}
+
+grind: ${NAME}
+	clear
+	valgrind ${LEAKS} ./minishell
 
 ${NAME}: ${OBJ} ${LIB}
 	${CC} ${CFLAGS} ${OBJ} ${LIB} -lreadline -o ${NAME}

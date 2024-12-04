@@ -82,6 +82,7 @@ typedef struct s_exec_iteration
 	int						here_doc_fd[2];
 	int						redir_in_fd;
 	int						pipefd[2];
+	int						check;
 }							t_exec;
 typedef struct s_var
 {
@@ -163,8 +164,7 @@ void		ft_handle_redirection_error(char **check_ambigous,
 void		ft_handle_redirection(t_var *var, t_token *target,
 				int *hd, int *input_redir);
 void		ft_handle_exit_status(t_var *var);
-void		ft_init_exec_current_instru(pid_t *pid,
-				int *has_redirection);
+void		ft_init_exec_current_instru(pid_t *pid);
 void		ft_init_exec(t_exec *it, t_var *var);
 void		ft_dup_fd_not_start_instru(t_exec it,
 				int *input_fd);

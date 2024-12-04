@@ -17,7 +17,7 @@ static void	ft_parse_prog(t_token *current)
 	char	path[1024];
 	char	*new;
 
-	if (ft_strncmp(current->token, "./", 2) == 0)
+	if (current->command == in_sys && ft_strncmp(current->token, "./", 2) == 0)
 	{
 		if (current->token[2] != '\0')
 		{

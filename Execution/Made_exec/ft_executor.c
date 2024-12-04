@@ -62,12 +62,11 @@ void	ft_exec_path(t_instru *tmp, t_var *var)
 pid_t	ft_exec_current_instru(t_instru *tmp, t_exec *it, int input_fd,
 		t_var *var)
 {
-	int		has_redirection;
 	pid_t	pid;
 	t_token	*target;
 
 	var->current_status = 0;
-	ft_init_exec_current_instru(&pid, &has_redirection);
+	ft_init_exec_current_instru(&pid);
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
@@ -78,13 +77,14 @@ pid_t	ft_exec_current_instru(t_instru *tmp, t_exec *it, int input_fd,
 		{
 			ft_handle_redirection(var, target,
 				&it->here_doc_fd[0], &it->redir_in_fd);
-			has_redirection = 1;
-			//ft_update_has_redirection(target, &has_redirection);
+			ft_update_has_redirection(target, &it->check);
 		}
-		ft_dup_fd_end_instru(*it, has_redirection);
+		ft_dup_fd_end_instru(*it, it->check);
 		ft_handle_empty_com(tmp, var);
 		ft_exec_path(tmp, var);
 	}
+	var->iteration->here_doc_fd[0] = -1;
+	var->iteration->here_doc_fd[1] = -1;
 	signal(SIGQUIT, SIG_IGN);
 	return (pid);
 }

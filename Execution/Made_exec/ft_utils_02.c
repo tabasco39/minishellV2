@@ -24,10 +24,13 @@ pid_t	ft_exec_once_builtin(t_instru *tmp, t_var *var, pid_t *pid)
 	return (*pid);
 }
 
-void	ft_init_exec_current_instru(pid_t *pid, int *has_redirection)
+void	ft_init_exec_current_instru(pid_t *pid)
 {
+	t_var	*var;
+
+	var = ft_get_struct_var();
 	*pid = fork();
-	*has_redirection = 0;
+	var->iteration->check = 0;
 }
 
 int	ft_check_dir(char *path)
@@ -40,7 +43,7 @@ int	ft_check_dir(char *path)
 	len--;
 	while (path[len] && path[len] != '/')
 		len--;
-	if (path[len])
+	if (len > 0 && path[len])
 	{
 		tmp = ft_substr(path, 0, len);
 		is_dir = opendir(tmp);

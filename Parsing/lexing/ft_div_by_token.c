@@ -44,10 +44,14 @@ static void	ft_tkn_aux(t_var *var, char q_ref, char *to_tkn, char *before)
 {
 	int		i;
 	int		is_arg;
+	int		is_value;
 	char	*exp;
 
 	i = 0;
 	is_arg = EXIT_FAILURE;
+	is_value = EXIT_FAILURE;
+	if (ft_find_char(to_tkn, '=') != -1 && ft_find_char(to_tkn, '$') != -1)
+		is_value = EXIT_SUCCESS;
 	exp = ft_expand(var, ft_strdup(to_tkn), EXIT_FAILURE);
 	if (before)
 	{
@@ -57,10 +61,8 @@ static void	ft_tkn_aux(t_var *var, char q_ref, char *to_tkn, char *before)
 	}
 	if (q_ref != '\0')
 		is_arg = EXIT_SUCCESS;
-	if (q_ref == '\0')
-	{
+	if (q_ref == '\0' && is_value == EXIT_FAILURE)
 		ft_reapply(var, q_ref, is_arg, exp);
-	}
 	else
 		ft_div_by_token_aux(var, exp, q_ref, is_arg);
 	free(exp);
@@ -73,12 +75,15 @@ static void	ft_tokenize(t_var *var, char *to_tokenize, char *before)
 	if (to_tokenize)
 	{
 		quote_ref = ft_first_quote(to_tokenize, '\'', '\"');
-		if (before && (ft_strncmp(before, "<", 1) == 0
-				|| ft_strncmp(before, ">", 1) == 0))
+		if (before)
 		{
-			ft_add_token(&var->token,
-				ft_create_token(to_tokenize), EXIT_FAILURE);
-			return ;
+			if (ft_strncmp(before, "<", 1) == 0
+				|| ft_strncmp(before, ">", 1) == 0)
+			{
+				ft_add_token(&var->token,
+					ft_create_token(to_tokenize), EXIT_FAILURE);
+				return ;
+			}
 		}
 		ft_tkn_aux(var, quote_ref, to_tokenize, before);
 	}

@@ -41,7 +41,8 @@ static unsigned int	count_c(char *p1, char c)
 		ft_utils_count_c(p1, &i);
 		if (p1[i] == c && p1[i + 1] != c && p1[i + 1] != '\0')
 			count = count + 1;
-		i++;
+		if (p1[i])
+			i++;
 	}
 	return (count);
 }

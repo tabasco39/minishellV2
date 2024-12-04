@@ -90,10 +90,13 @@ void	ft_handle_empty_com(t_instru *tmp, t_var *var)
 
 int	ft_init_pipe_hd(t_instru *tmp, t_var *var)
 {
-	if (ft_find_cmd(tmp->start, heredoc) != NULL)
+	if (tmp && tmp->start)
 	{
-		if (pipe(var->iteration->here_doc_fd) == -1)
-			return (EXIT_FAILURE);
+		if (ft_find_cmd(tmp->start, heredoc) != NULL)
+		{
+			if (pipe(var->iteration->here_doc_fd) == -1)
+				return (EXIT_FAILURE);
+		}
 	}
 	return (EXIT_SUCCESS);
 }

@@ -68,7 +68,6 @@ pid_t	ft_exec_current_instru(t_instru *tmp, t_exec *it, int input_fd,
 
 	var->current_status = 0;
 	ft_init_exec_current_instru(&pid, &has_redirection);
-	target = ft_find_cmd_token(tmp);
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
@@ -79,7 +78,8 @@ pid_t	ft_exec_current_instru(t_instru *tmp, t_exec *it, int input_fd,
 		{
 			ft_handle_redirection(var, target,
 				&it->here_doc_fd[0], &it->redir_in_fd);
-			ft_update_has_redirection(target, &has_redirection);
+			has_redirection = 1;
+			//ft_update_has_redirection(target, &has_redirection);
 		}
 		ft_dup_fd_end_instru(*it, has_redirection);
 		ft_handle_empty_com(tmp, var);
@@ -128,11 +128,11 @@ void	ft_exec(t_instru *tmp, t_var *var)
 	target = NULL;
 	input_fd = STDIN_FILENO;
 	ft_init_exec(var->iteration, var);
-	if (ft_handle_unclosed_pipe(var, &tmp, var->iteration) == EXIT_FAILURE)
+	if (ft_handle_unclosed_pipe(var, &tmp, var->iteration) == 1)
 		return ;
 	if (ft_init_pipe_hd(tmp, var) == EXIT_FAILURE)
 		return ;
-	if (ft_check_before_exec(tmp, target, var->iteration, var) == EXIT_FAILURE)
+	if (tmp && ft_check_before_exec(tmp, target, var->iteration, var) == 1)
 		return ;
 	pid = ft_exec_all_instru(tmp, var->iteration, input_fd, var);
 	if (var->iteration->redir_in_fd != -1 && var->iteration->redir_in_fd != 0)

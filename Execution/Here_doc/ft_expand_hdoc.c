@@ -19,17 +19,12 @@ char	*ft_loop(char *to_change)
 	i = 0;
 	while (to_change[i] == '$')
 		i++;
-	if (to_change[i] != 39 && to_change[i] != 34)
+	if (to_change[i] != (char)39 && to_change[i] != (char)34)
 		return (ft_strdup(to_change));
 	if (i % 2 == 0)
 		return (ft_strdup(to_change));
 	else
-	{
-		if (i != 1)
-			return (ft_strdup(to_change + 1));
-		else
-			return (ft_strdup(to_change));
-	}
+		return (ft_strdup(to_change + 1));
 }
 
 char	*ft_expand_hdoc(char *to_change, int *bool)

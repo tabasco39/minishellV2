@@ -40,12 +40,13 @@ char	*ft_utils_split_aux(unsigned int *j, char *s)
 	char			*result;
 
 	stock = *j;
-	while (s[*j] != '\0')
+	while (s && s[*j] != '\0')
 	{
 		if (s[*j] == ' ')
 			break ;
 		ft_utils_count_c(s, j);
-		*j = *j + 1;
+		if (s[*j])
+			*j = *j + 1;
 	}
 	result = cpy(s, stock, *j);
 	return (result);

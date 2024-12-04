@@ -68,7 +68,6 @@ pid_t	ft_exec_current_instru(t_instru *tmp, t_exec *it, int input_fd,
 
 	var->current_status = 0;
 	ft_init_exec_current_instru(&pid, &has_redirection);
-	target = ft_find_cmd_token(tmp);
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
@@ -79,7 +78,8 @@ pid_t	ft_exec_current_instru(t_instru *tmp, t_exec *it, int input_fd,
 		{
 			ft_handle_redirection(var, target,
 				&it->here_doc_fd[0], &it->redir_in_fd);
-			ft_update_has_redirection(target, &has_redirection);
+			has_redirection = 1;
+			//ft_update_has_redirection(target, &has_redirection);
 		}
 		ft_dup_fd_end_instru(*it, has_redirection);
 		ft_handle_empty_com(tmp, var);

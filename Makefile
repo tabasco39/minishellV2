@@ -69,6 +69,7 @@ ${LIB}:
 
 clean:
 	rm -f ${OBJ}
+	rm -f *.txt
 	make -C ./libft/ clean
 
 fclean: clean

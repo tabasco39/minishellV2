@@ -12,6 +12,17 @@
 
 #include "../../minishell.h"
 
+static int	ft_loop_to_target(char *word, int start, char target)
+{
+	while (word[start])
+	{
+		if (word[start] == target)
+			return (start);
+		start++;
+	}
+	return (start);
+}
+
 int	ft_count_quote(char *str, char *to_count)
 {
 	int	i;
@@ -33,14 +44,13 @@ void	ft_check_quote(char *str, int *is_dquote, int *is_squote)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == (char)34)
 		{
 			i++;
 			(*is_dquote)++;
-			while (str[i] && str[i] != (char)34)
-				i++;
+			i = ft_loop_to_target(str, i, (char)34);
 			if (str[i] && str[i] == (char)34)
 				(*is_dquote)++;
 		}
@@ -48,12 +58,12 @@ void	ft_check_quote(char *str, int *is_dquote, int *is_squote)
 		{
 			i++;
 			(*is_squote)++;
-			while (str[i] && str[i] != (char)39)
-				i++;
+			i = ft_loop_to_target(str, i, (char)39);
 			if (str[i] && str[i] == (char)39)
 				(*is_squote)++;
 		}
-		i++;
+		if (str[i])
+			i++;
 	}
 }
 

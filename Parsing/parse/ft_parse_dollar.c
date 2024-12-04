@@ -96,7 +96,12 @@ char	*ft_expand(t_var *var, char *to_change, int do_exp)
 {
 	char	*result;
 
-	result = ft_loop(var, to_change, do_exp);
-	free(to_change);
+	if (to_change)
+	{
+		result = ft_loop(var, to_change, do_exp);
+		free(to_change);
+	}
+	else
+		return (NULL);
 	return (result);
 }

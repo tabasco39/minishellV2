@@ -73,6 +73,8 @@ static void	ft_parse_aux(t_token *current, t_token *nxt)
 		}
 	}
 	ft_prs_aux(current, nxt);
+	if (current->is_head == 1 && current->command == dollar)
+		current->command = argument;
 }
 
 void	ft_parse(t_token *token)

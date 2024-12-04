@@ -128,11 +128,11 @@ void	ft_exec(t_instru *tmp, t_var *var)
 	target = NULL;
 	input_fd = STDIN_FILENO;
 	ft_init_exec(var->iteration, var);
-	if (ft_handle_unclosed_pipe(var, &tmp, var->iteration) == EXIT_FAILURE)
+	if (ft_handle_unclosed_pipe(var, &tmp, var->iteration) == 1)
 		return ;
 	if (ft_init_pipe_hd(tmp, var) == EXIT_FAILURE)
 		return ;
-	if (ft_check_before_exec(tmp, target, var->iteration, var) == EXIT_FAILURE)
+	if (tmp && ft_check_before_exec(tmp, target, var->iteration, var) == 1)
 		return ;
 	pid = ft_exec_all_instru(tmp, var->iteration, input_fd, var);
 	if (var->iteration->redir_in_fd != -1 && var->iteration->redir_in_fd != 0)

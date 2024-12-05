@@ -115,6 +115,11 @@ void	ft_display_export(t_list *env)
 
 int	ft_top_level_check(t_var *var)
 {
+	char	*tmp;
+
+	tmp = ft_strtrim(var->line, " \t\n\v\f\r");
+	free(var->line);
+	var->line = tmp;
 	if (ft_is_quote_closed(var->line) == EXIT_FAILURE)
 	{
 		ft_putstr_fd("minishell: error unclosed quote find\n", 2);
@@ -139,7 +144,7 @@ void	ft_minishell_core(t_var *var)
 	ft_set_instru(&var->instru, var->token);
 	if (var->instru && var->instru->next == NULL)
 		ft_upgrade_env(var, "_", var->instru->end->token);
-	//ft_display_token(var->token);
+	ft_display_token(var->token);
 	if (var->token && (var->token->command == not_comm
 		|| ft_valid_redir(var->token) == EXIT_FAILURE))
 	{

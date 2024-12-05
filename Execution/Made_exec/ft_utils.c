@@ -31,7 +31,7 @@ void	ft_display_error(char *error, char *token)
 	t_var	*all_var;
 
 	all_var = ft_get_struct_var();
-	ft_putstr_fd("minishell test: ", 2);
+	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(error, 2);
 	ft_putendl_fd(token, 2);
 	ft_free_minishell(all_var);

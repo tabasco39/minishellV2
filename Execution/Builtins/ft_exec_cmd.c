@@ -19,6 +19,8 @@ int	ft_valid_exit(char *ref, long long value)
 	char	*to_cmp;
 
 	tmp = ft_itoa_shell(value);
+	while (*ref == '0')
+		ref++;
 	tmp_ref = ft_strtrim(ref, " ");
 	to_cmp = ft_strtrim(tmp_ref, "+");
 	free(tmp_ref);

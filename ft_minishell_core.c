@@ -115,6 +115,11 @@ void	ft_display_export(t_list *env)
 
 int	ft_top_level_check(t_var *var)
 {
+	char	*tmp;
+
+	tmp = ft_strtrim(var->line, " \t\n\v\f\r");
+	free(var->line);
+	var->line = tmp;
 	if (ft_is_quote_closed(var->line) == EXIT_FAILURE)
 	{
 		ft_putstr_fd("minishell: error unclosed quote find\n", 2);

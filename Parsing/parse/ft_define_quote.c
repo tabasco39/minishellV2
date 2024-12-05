@@ -12,69 +12,89 @@
 
 #include "../../minishell.h"
 
-char	*ft_dollar_define(char *to_change)
+int	ft_is_open(char *to_check, int end)
 {
-	char	*result;
+	int		i;
+	char	is_open;
+
+	i = 0;
+	is_open = '\0';
+	while (to_check[i] && i != end)
+	{
+		if (to_check[i] == '\"' || to_check[i] == '\'')
+		{
+			if (is_open == '\0')
+				is_open = to_check[i];
+			else
+			{
+				if (is_open == to_check[i])
+					is_open = '\0';
+			}
+		}
+		i++;
+	}
+	if (is_open == '\0')
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
+static void	ft_quote_case(char *check, char curr[2], char **result, int *i)
+{
 	char	tmp[2];
-	int		do_join;
-	int		i;
 
-	i = 0;
-	result = ft_strdup("\0");
-	do_join = 0;
-	while (to_change[i] != '\0')
+	tmp[1] = '\0';
+	if (ft_is_open(check, (*i) + 1) == EXIT_SUCCESS)
 	{
-		if (to_change[i] == '$')
-			do_join = ft_dollar_aux(to_change, i);
-		else
-			do_join = 0;
-		tmp[0] = to_change[i];
-		tmp[1] = '\0';
-		if (do_join == 0)
-			result = ft_strjoin_shell(result, tmp);
-		i++;
+		(*i)++;
+		while (check[*i] && check[*i] != curr[0])
+		{
+			tmp[0] = check[*i];
+			*result = ft_strjoin_shell(*result, tmp);
+			(*i)++;
+		}
+		if (check[*i] == curr[0])
+			(*i)++;
 	}
-	return (result);
+	else
+	{
+		if (check[*i] != '\0')
+			(*i)++;
+	}
+
 }
 
-char	*ft_quote_aux(char *to_change)
+static void	ft_define_aux(char **result, char *check, int *i, char curr[2])
 {
-	char	*result;
-	char	*to_del;
-	char	current[2];
-	int		i;
-
-	i = 0;
-	to_del = ft_strdup("\0");
-	current[0] = '\0';
-	current[1] = '\0';
-	while (to_change[i] != '\0')
+	if (curr[0] == '\'' || curr[0] == '\"')
+		ft_quote_case(check, curr, result, i);
+	else
 	{
-		if (to_change[i] == '\'' || to_change[i] == '\"')
-			to_del = ft_dq_redefine(to_change, current, to_del, i);
-		i++;
+		*result = ft_strjoin_shell(*result, curr);
+		if (check[*i] != '\0')
+			(*i)++;
 	}
-	result = ft_del_quote(to_change, to_del);
-	free(to_del);
-	return (result);
+
 }
+
 
 char	*ft_define_quote(char *to_change)
 {
+	int		i;
+	char	curr[2];
 	char	*result;
-	char	*tmp;
 
-	result = NULL;
+	i = 0;
 	if (!to_change)
 		return (NULL);
 	if (ft_find_char(to_change, '\'') == -1
 		&& ft_find_char(to_change, '\"') == -1)
 		return (ft_strdup(to_change));
-	tmp = ft_dollar_define(to_change);
-	if (tmp[0] == '\0')
-		result = ft_quote_aux(to_change);
-	else
-		result = ft_quote_aux(tmp);
-	free(tmp);
+	result = ft_strdup("\0");
+	curr[1] = '\0';
+	while (to_change[i] != '\0')
+	{
+		curr[0] = to_change[i];
+		ft_define_aux(&result, to_change, &i, curr);
+	}
 	return (result);
 }

@@ -61,7 +61,7 @@ int	ft_init_var(t_var *all, char **envp, int argc, char **argv)
 {
 	if (argc != 1 && argv)
 	{
-		ft_putstr_fd("error : no arg need\n", 2);
+		ft_putstr_fd("minishell: error: no arg need\n", 2);
 		return (EXIT_FAILURE);
 	}
 	all->status = 0;

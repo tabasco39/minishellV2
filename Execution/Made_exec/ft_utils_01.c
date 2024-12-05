@@ -77,6 +77,8 @@ t_token	*ft_find_cmd_token(t_instru *instru)
 	i = ft_count_token_in_instru(instru);
 	while (i > 0)
 	{
+		if (result->command == heredoc)
+			return	(result);
 		if (result->command >= redirect_input
 			&& result->command <= append_redirect_output)
 			return (result);

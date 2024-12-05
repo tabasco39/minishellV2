@@ -60,7 +60,10 @@ static void	ft_tkn_aux(t_var *var, char q_ref, char *to_tkn, char *before)
 			is_arg = EXIT_SUCCESS;
 	}
 	if (q_ref != '\0')
-		is_arg = EXIT_SUCCESS;
+	{
+		if (ft_find_char(to_tkn, '<') != -1 || ft_find_char(to_tkn, '>') != -1 || ft_find_char(to_tkn, '|') != -1)
+			is_arg = EXIT_SUCCESS;
+	}
 	if (q_ref == '\0' && is_value == EXIT_FAILURE)
 		ft_reapply(var, q_ref, is_arg, exp);
 	else

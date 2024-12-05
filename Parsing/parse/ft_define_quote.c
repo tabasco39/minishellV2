@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-static int	ft_is_open_nie(char *to_check, int end)
+int	ft_is_open(char *to_check, int end)
 {
 	int		i;
 	char	is_open;
@@ -43,7 +43,7 @@ static void	ft_quote_case(char *check, char curr[2], char **result, int *i)
 	char	tmp[2];
 
 	tmp[1] = '\0';
-	if (ft_is_open_nie(check, (*i) + 1) == EXIT_SUCCESS)
+	if (ft_is_open(check, (*i) + 1) == EXIT_SUCCESS)
 	{
 		(*i)++;
 		while (check[*i] && check[*i] != curr[0])

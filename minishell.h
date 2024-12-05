@@ -241,7 +241,7 @@ void		ft_free_char(char **tmp);
 int			ft_free_in_ambigous(t_var *var,
 				char *check_ambigous);
 void		ft_close_pipe(t_var *var);
-int			ft_is_open(char *to_check, char quote, int end);
+int			ft_is_open(char *to_check, int end);
 void		ft_rl_cut(t_var *var, char *to_add);
 int			ft_init_pipe_hd(t_instru *tmp, t_var *var);
 void		ft_create_envp(t_list **all_env, char **envp);

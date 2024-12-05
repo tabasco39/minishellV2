@@ -58,7 +58,7 @@ int	ft_is_ambigous(t_comm type, char *to_check, int start)
 	}
 	i = start;
 	if (i >= 0 && q_ref != '\0'
-		&& ft_is_open(to_check, q_ref, start) == EXIT_FAILURE)
+		&& ft_is_open(to_check, start) == EXIT_FAILURE)
 		result = 1;
 	if (type == dollar && q_ref == '\0')
 		result = 1;

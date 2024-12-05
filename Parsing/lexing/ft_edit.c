@@ -45,9 +45,9 @@ int	ft_check_open_quote(char *line, int i)
 {
 	if (ft_find_char(line, 34) == -1 && ft_find_char(line, 39) == -1)
 		return (EXIT_SUCCESS);
-	if (ft_is_open(line, 39, i) == EXIT_SUCCESS)
+	if (ft_is_open(line, i) == EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-	else if (ft_is_open(line, 34, i) == EXIT_SUCCESS)
+	else if (ft_is_open(line, i) == EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

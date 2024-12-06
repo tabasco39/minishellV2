@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:02:23 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/29 12:57:46 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/06 08:48:51 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_token	*ft_find_cmd_token(t_instru *instru)
 	while (i > 0)
 	{
 		if (result->command == heredoc)
-			return	(result);
+			return (result);
 		if (result->command >= redirect_input
 			&& result->command <= append_redirect_output)
 			return (result);

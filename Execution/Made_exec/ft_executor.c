@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:43:40 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/12/06 08:53:25 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:21:04 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,11 @@ void ft_reinit_heredoc_fd(t_instru *tmp, t_token *target, t_var *var)
 {
 	if (!target || ft_find_cmd_intru(tmp, heredoc) == EXIT_FAILURE)
 	{
-		var->iteration->here_doc_fd[0] = -1;
-		var->iteration->here_doc_fd[1] = -1;
+		if (!tmp->next)
+		{
+			var->iteration->here_doc_fd[0] = -1;
+			var->iteration->here_doc_fd[1] = -1;
+		}
 	}
 }
 

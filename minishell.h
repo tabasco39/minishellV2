@@ -84,6 +84,7 @@ typedef struct s_exec_iteration
 	int						pipefd[2];
 	int						check;
 }							t_exec;
+
 typedef struct s_var
 {
 	int						status;
@@ -271,4 +272,10 @@ int			ft_minishell_history(t_var *all_var, int do_append);
 void		ft_history(t_var *all_var);
 void		ft_check_point(t_instru *tmp, t_var *var);
 void		ft_update_has_redirection(t_token *target, int *has_redirection);
+
+
+
+char    *ft_list_to_not_expand(char *check);
+char	*ft_expand_parse(t_var *var, char *to_exp, char *not_exp);
+
 #endif

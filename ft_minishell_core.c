@@ -144,7 +144,7 @@ void	ft_minishell_core(t_var *var)
 	ft_set_instru(&var->instru, var->token);
 	if (var->instru && var->instru->next == NULL)
 		ft_upgrade_env(var, "_", var->instru->end->token);
-	ft_display_token(var->token);
+	//ft_display_token(var->token);
 	if (var->token && (var->token->command == not_comm
 		|| ft_valid_redir(var->token) == EXIT_FAILURE))
 	{

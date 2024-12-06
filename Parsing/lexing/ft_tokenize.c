@@ -15,6 +15,7 @@
 char    *ft_list_to_not_expand(char *check)
 {
     char    tmp;
+	char	*value;
     char    *result;
     int     flag;
     int     i;
@@ -38,8 +39,10 @@ char    *ft_list_to_not_expand(char *check)
                 {
                     if (check[i] == '$' && tmp == '\'')
                     {
-                        flag++;
-                        result = ft_strjoin_shell(result, ft_itoa(flag));
+                    	flag++;
+						value = ft_itoa(flag);
+                        result = ft_strjoin_shell(result, value);
+						free(value);
                     }
                     i++;
                 }
@@ -103,11 +106,10 @@ char	*ft_expand_parse(t_var *var, char *to_exp, char *not_exp)
 	i = 0;
 	divide = ft_div_expand(to_exp);
 	tmp = ft_split(divide, ' ');
-	free(divide);
 	while (tmp[i])
 	{
 		if (ft_find_char(not_exp, i + '0') == -1)
-			tmp[i] = ft_expand(var, ft_strdup(tmp[i]), EXIT_SUCCESS);
+			tmp[i] = ft_expand(var, tmp[i], EXIT_SUCCESS);
 		i++;
 	}
 	i = 0;
@@ -117,6 +119,13 @@ char	*ft_expand_parse(t_var *var, char *to_exp, char *not_exp)
 		result = ft_strjoin_shell(result, tmp[i]);
 		i++;
 	}
-	ft_free_all(tmp);
+	i = 0;
+	while (tmp[i])
+	{
+		free(tmp[i]);
+		i++;
+	}
+	free(tmp);
+	free(divide);
 	return (result);
 }

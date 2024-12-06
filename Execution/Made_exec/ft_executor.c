@@ -59,6 +59,23 @@ void	ft_exec_path(t_instru *tmp, t_var *var)
 	exit(var->status);
 }
 
+int	ft_find_cmd_intru(t_instru *tmp, t_comm target)
+{
+	int		i;
+	t_token	*result;
+
+	i = ft_count_token_in_instru(tmp);
+	result = tmp->start;
+	while (i > 0)
+	{
+		if (result->command == target)
+			return	(EXIT_SUCCESS);
+		i--;
+		result = result->next;
+	}
+	return (EXIT_FAILURE);
+}
+
 pid_t	ft_exec_current_instru(t_instru *tmp, t_exec *it, int input_fd,
 		t_var *var)
 {
@@ -73,6 +90,11 @@ pid_t	ft_exec_current_instru(t_instru *tmp, t_exec *it, int input_fd,
 		ft_check_point(tmp, var);
 		target = ft_find_cmd_token(tmp);
 		ft_dup_fd_not_start_instru(*it, &input_fd);
+		if (!target || ft_find_cmd_intru(tmp, heredoc) == EXIT_FAILURE)
+		{
+			var->iteration->here_doc_fd[0] = -1;
+			var->iteration->here_doc_fd[1] = -1;
+		}
 		if (target != NULL)
 		{
 			ft_handle_redirection(var, target,
@@ -83,8 +105,6 @@ pid_t	ft_exec_current_instru(t_instru *tmp, t_exec *it, int input_fd,
 		ft_handle_empty_com(tmp, var);
 		ft_exec_path(tmp, var);
 	}
-	var->iteration->here_doc_fd[0] = -1;
-	var->iteration->here_doc_fd[1] = -1;
 	signal(SIGQUIT, SIG_IGN);
 	return (pid);
 }

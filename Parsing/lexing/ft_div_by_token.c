@@ -31,6 +31,8 @@ static void	ft_reapply(t_var *var, char q_ref, int is_arg, char *exp)
 	char	**tmp;
 
 	i = 0;
+	if (ft_find_char(exp, ' ') != -1)
+		is_arg = EXIT_SUCCESS;
 	tmp = ft_split_shell(exp, ' ');
 	while (tmp && tmp[i])
 	{
@@ -40,7 +42,7 @@ static void	ft_reapply(t_var *var, char q_ref, int is_arg, char *exp)
 	ft_free_all(tmp);
 }
 
-static void	ft_tkn_aux(t_var *var, char q_ref, char *to_tkn, char *before)
+static void	ft_tkn_aux(t_var *var, char q_ref, char *to_tkn)
 {
 	int		i;
 	int		is_arg;
@@ -53,15 +55,11 @@ static void	ft_tkn_aux(t_var *var, char q_ref, char *to_tkn, char *before)
 	if (ft_find_char(to_tkn, '=') != -1 && ft_find_char(to_tkn, '$') != -1)
 		is_value = EXIT_SUCCESS;
 	exp = ft_expand(var, ft_strdup(to_tkn), EXIT_FAILURE);
-	if (before)
-	{
-		if (ft_strncmp(before, "|", 1) != 0
-			&& ft_find_char(to_tkn, '$') != -1)
-			is_arg = EXIT_SUCCESS;
-	}
 	if (q_ref != '\0')
 	{
-		if (ft_find_char(to_tkn, '<') != -1 || ft_find_char(to_tkn, '>') != -1 || ft_find_char(to_tkn, '|') != -1)
+		if (ft_find_char(to_tkn, '<') != -1
+			|| ft_find_char(to_tkn, '>') != -1
+			|| ft_find_char(to_tkn, '|') != -1)
 			is_arg = EXIT_SUCCESS;
 	}
 	if (q_ref == '\0' && is_value == EXIT_FAILURE)
@@ -88,7 +86,7 @@ static void	ft_tokenize(t_var *var, char *to_tokenize, char *before)
 				return ;
 			}
 		}
-		ft_tkn_aux(var, quote_ref, to_tokenize, before);
+		ft_tkn_aux(var, quote_ref, to_tokenize);
 	}
 }
 

@@ -60,7 +60,6 @@ static void	ft_quote_case(char *check, char curr[2], char **result, int *i)
 		if (check[*i] != '\0')
 			(*i)++;
 	}
-
 }
 
 static void	ft_define_aux(char **result, char *check, int *i, char curr[2])
@@ -73,9 +72,7 @@ static void	ft_define_aux(char **result, char *check, int *i, char curr[2])
 		if (check[*i] != '\0')
 			(*i)++;
 	}
-
 }
-
 
 char	*ft_define_quote(char *to_change)
 {

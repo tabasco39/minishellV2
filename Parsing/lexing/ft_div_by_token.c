@@ -19,7 +19,6 @@ static void	ft_div_by_token_aux(t_var *var, char *split, char q_ref, int is_arg)
 	tmp = NULL;
 	if (q_ref != '\0')
 		tmp = ft_strdup(split);
-		//tmp = ft_define_quote(split);
 	else
 		tmp = ft_strdup(split);
 	ft_add_token(&var->token, ft_create_token(tmp), is_arg);
@@ -81,6 +80,7 @@ static void	ft_tkn_aux(t_var *var, char q_ref, char *to_tkn)
 		ft_reapply(var, q_ref, is_arg, exp);
 	else
 		ft_div_by_token_aux(var, exp, q_ref, is_arg);
+	free(list);
 	free(exp);
 	free(tmp);
 }
@@ -148,6 +148,7 @@ static char	*ft_loop_dollar(char *to_change)
 static void	ft_tokenize(t_var *var, char *to_tokenize, char *before)
 {
 	char	quote_ref;
+	char	*tmp;
 
 	if (to_tokenize)
 	{
@@ -162,8 +163,9 @@ static void	ft_tokenize(t_var *var, char *to_tokenize, char *before)
 				return ;
 			}
 		}
-		to_tokenize = ft_loop_dollar(to_tokenize);
-		ft_tkn_aux(var, quote_ref, to_tokenize);
+		tmp = ft_loop_dollar(to_tokenize);
+		ft_tkn_aux(var, quote_ref, tmp);
+		free(tmp);
 	}
 }
 

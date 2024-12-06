@@ -91,6 +91,9 @@ int	ft_exec_exit(t_var *var, t_token *start, t_token *arg)
 	{
 		if (arg->next->command == argument)
 		{
+			value = ft_atoi_shell(arg->token, &status);
+			if (status == EXIT_FAILURE)
+				ft_exit_status(arg, &status, &value, EXIT_SUCCESS);
 			ft_putendl_fd("minishell: exit: too many arg", STDERR_FILENO);
 			return (EXIT_FAILURE);
 		}

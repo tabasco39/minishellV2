@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:32:24 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/29 12:54:46 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/06 08:40:58 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,17 @@ int	ft_handle_input_redirection(t_token *target, char *check_ambigous,
 {
 	if (target->command == redirect_input)
 	{
+		if (access(target->next->token, R_OK) == -1)
+		{
+			if (errno == EACCES)
+			{
+				ft_putendl_fd("minishell : Permission denied", 2);
+				close(*input_fd);
+				ft_close_pipe(var);
+				ft_free_minishell(var);
+				return (EXIT_FAILURE);
+			}
+		}
 		if (ft_error_redirect_input(target, check_ambigous, input_fd, var))
 			return (EXIT_FAILURE);
 		if (*input_fd != -1 && dup2(*input_fd, STDIN_FILENO) == -1)

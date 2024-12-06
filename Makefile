@@ -41,6 +41,7 @@ SRC = ft_program.c \
 	  Parsing/lexing/ft_div_by_token.c \
 	  Parsing/lexing/ft_del_str.c \
 	  Parsing/lexing/ft_tokenize.c \
+	  Parsing/lexing/ft_token_utils.c \
 	  Parsing/parse/ft_parse.c \
 	  Parsing/parse/ft_parse_utils.c \
 	  Parsing/parse/ft_get_pid.c \

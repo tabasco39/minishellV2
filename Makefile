@@ -26,6 +26,7 @@ SRC = ft_program.c \
 	  Execution/Redirection/ft_utils.c\
 	  Execution/Redirection/ft_utils_01.c\
 	  Execution/Redirection/ft_handle_redirection.c\
+	  Execution/Made_exec/ft_utils_04.c\
 	  Execution/Made_exec/ft_utils_03.c\
 	  Execution/Made_exec/ft_utils_02.c\
 	  Execution/Made_exec/ft_utils_01.c\

@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:29:30 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/12/06 08:36:56 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/06 13:22:02 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ void	ft_check_access_directory(char *check_ambigous, t_token *target)
 	t_var	*all_var;
 
 	all_var = ft_get_struct_var();
+	if (target->next && target->next->token[0] == '\0')
+	{
+		ft_putendl_fd("minishell : No such file or directory", 2);
+		ft_free_minishell(all_var);
+		exit(EXIT_FAILURE);
+	}
 	fd = open(target->next->token, O_RDONLY);
 	if (check_ambigous && (fd == -1 && access(target->next->token, W_OK) == -1
 			&& target->command != heredoc))

@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 10:02:09 by aelison           #+#    #+#             */
-/*   Updated: 2024/12/02 07:12:20 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:29:01 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,4 +285,7 @@ void		ft_join_until_close_quote(char **result,
 int			ft_add_special(char curr[2],
 				char *to_change, int *i, char **result);
 int			ft_exit_error(t_token *arg);
+int			ft_find_cmd_intru(t_instru *tmp, t_comm target);
+void		ft_reinit_heredoc_fd(t_instru *tmp, t_token *target, t_var *var);
+
 #endif

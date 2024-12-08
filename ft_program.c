@@ -76,7 +76,7 @@ int	ft_init_var(t_var *all, char **envp, int argc, char **argv)
 	ft_create_envp(&all->env, envp);
 	all->tab_env = ft_new_envp(all->env);
 	all->iteration = malloc(sizeof(t_exec));
-	all->iteration->redir_in_fd = STDIN_FILENO;
+	all->iteration->redir_in_fd = -1;
 	all->iteration->pipefd[0] = -1;
 	all->iteration->pipefd[1] = -1;
 	all->iteration->here_doc_fd[0] = -1;

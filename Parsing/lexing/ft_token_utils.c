@@ -80,11 +80,13 @@ int	ft_del_dollar(char *to_change, int ind_dollar)
 	return (EXIT_FAILURE);
 }
 
-int	ft_tkn_errors(char *to_tkn, char *exp, char *tmp, char q_ref)
+int	ft_tkn_errors(t_var *var, char *to_tkn, char q_ref)
 {
 	int		is_arg;
+	char	*exp;
 
 	is_arg = EXIT_FAILURE;
+	exp = ft_expand(var, ft_strdup(to_tkn), EXIT_SUCCESS);
 	if (ft_find_char(exp, '<') != -1 || ft_find_char(exp, '>') != -1)
 	{
 		if (ft_find_char(to_tkn, '<') == -1 && ft_find_char(to_tkn, '>') == -1)
@@ -92,9 +94,9 @@ int	ft_tkn_errors(char *to_tkn, char *exp, char *tmp, char q_ref)
 	}
 	if (q_ref != '\0')
 	{
-		if (ft_find_char(tmp, '<') != -1
-			|| ft_find_char(tmp, '>') != -1
-			|| ft_find_char(tmp, '|') != -1)
+		if (ft_find_char(to_tkn, '<') != -1
+			|| ft_find_char(to_tkn, '>') != -1
+			|| ft_find_char(to_tkn, '|') != -1)
 			is_arg = EXIT_SUCCESS;
 	}
 	return (is_arg);

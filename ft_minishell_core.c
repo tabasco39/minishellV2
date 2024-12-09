@@ -73,6 +73,7 @@ void	ft_display_token(t_token *token)
 
 void	ft_show_list(t_list	*list)
 {
+	printf("======================== Display List =============================\n");
 	while (list)
 	{
 		printf("content: %s\n", (char *)list->content);

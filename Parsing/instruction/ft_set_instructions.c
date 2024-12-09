@@ -85,3 +85,48 @@ void	ft_set_instru(t_instru **test, t_token *head)
 		head = head->next;
 	}
 }
+
+static void	ft_reapply(t_var *var, int is_arg, char *exp)
+{
+	int		i;
+	char	**tmp;
+
+	i = 0;
+	if (ft_find_char(exp, ' ') != -1)
+		is_arg = EXIT_SUCCESS;
+	tmp = ft_split_shell(exp, ' ');
+	while (tmp && tmp[i])
+	{
+		ft_add_token(&var->token, ft_create_token(tmp[i]), is_arg);
+		i++;
+	}
+	ft_free_all(tmp);
+}
+
+void	ft_apply(t_var *var, char *to_tkn, int is_arg, int is_value)
+{
+	t_list	*stack;
+	t_list	*test;
+	char	*list;
+	char	*exp;
+	char	*tmp;
+
+	exp = NULL;
+	tmp = NULL;
+	test = ft_divide_all(to_tkn);
+	stack = test;
+	list = ft_list_to_not_expand(to_tkn);
+	while (test)
+	{
+		ft_define_exp_del_quote(&exp, &tmp, list, test->content);
+		if (ft_first_quote(test->content, '\'', '\"') == '\0' && is_value == EXIT_FAILURE)
+			ft_reapply(var, is_arg, exp);
+		else
+			ft_add_token(&var->token, ft_create_token(exp), is_arg);	
+		free(exp);
+		free(tmp);
+		test = test->next;
+	}
+	free(list);
+	ft_lstclear(&stack, free);
+}

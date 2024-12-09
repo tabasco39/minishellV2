@@ -67,3 +67,83 @@ int	ft_is_pipes_closed(char *to_check)
 	}
 	return (EXIT_SUCCESS);
 }
+
+char	*ft_get_quote_arg(char *to_check, int *i)
+{
+	char	*result;
+	char	quote;
+	int		start;
+
+	start = *i;
+	quote = to_check[*i];
+	while (start >= 0)
+	{
+		if (to_check[start] != '_' && ft_isalnum(to_check[start]) == 0)
+			break ;
+		start--;
+	}
+	if (start < 0)
+		start = 0;
+	(*i)++;
+	while (to_check[*i] && to_check[*i] != quote)
+		(*i)++;
+	result = ft_substr(to_check, start, (*i) - start + 1);
+	return (result);
+}
+
+char	*ft_get_arg(char *to_check, int *i)
+{
+	char	*tmp;
+	char	*result;
+	int		start;
+
+	start = *i;
+	while (to_check[*i])
+	{
+		if (to_check[*i] == '\'' || to_check[*i] == '\"')
+			break ;
+		(*i)++;
+	}
+	if (to_check[*i - 1] == '=')
+	{
+		result = ft_substr(to_check, start, (*i) - start);
+		tmp = ft_get_quote_arg(to_check, i);
+		result = ft_strjoin_shell(result, tmp);
+		free(tmp);
+	}
+	else
+	{
+		result = ft_substr(to_check, start, (*i) - start);
+		(*i)--;
+	}
+	return (result);
+}
+
+t_list	*ft_divide_all(char *to_divide)
+{
+	t_list	*result;
+	int		i;
+	char	*tmp;
+
+	result = NULL;
+	i = 0;
+	while (to_divide[i])
+	{
+		if (to_divide[i] == '\'' || to_divide[i] == '\"')
+		{
+			if (ft_is_open(to_divide, i + 1) == EXIT_SUCCESS)
+			{
+				tmp = ft_get_quote_arg(to_divide, &i);
+				ft_lstadd_back(&result, ft_lstnew(tmp));
+			}
+		}
+		else
+		{
+			tmp = ft_get_arg(to_divide, &i);
+			ft_lstadd_back(&result, ft_lstnew(tmp));
+		}
+		if (to_divide[i])
+			i++;
+	}
+	return (result);
+}

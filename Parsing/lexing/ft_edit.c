@@ -83,7 +83,7 @@ int	ft_add_special(char curr[2], char *to_change, int *i, char **result)
 {
 	if (curr[0] == '$' && ft_del_dollar(to_change, *i) == EXIT_SUCCESS)
 	{
-		*result = ft_strjoin_shell(*result, "$@");
+		*result = ft_strjoin_shell(*result, "@");
 		(*i)++;
 		return (EXIT_SUCCESS);
 	}

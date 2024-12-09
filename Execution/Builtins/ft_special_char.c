@@ -23,7 +23,7 @@ int	ft_exec_echo_util(t_token *s, t_token *e, char tmp)
 		if (s->next)
 		{
 			if (s->next->command == argument || s->next->command == dollar)
-				ft_putstr_fd(" ", 1);
+				ft_putstr_fd(" ", STDOUT_FILENO);
 		}
 		s = s->next;
 	}

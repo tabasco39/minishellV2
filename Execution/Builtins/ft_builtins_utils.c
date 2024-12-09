@@ -100,6 +100,8 @@ int	ft_exec_exit(t_var *var, t_token *start, t_token *arg)
 	else
 	{
 		value = ft_atoi_shell(arg->token, &status);
+		if (arg->token && arg->token[0] == '\0')
+			status = EXIT_FAILURE;
 		if (start->prev)
 			ft_exit_status(arg, &status, &value, EXIT_FAILURE);
 		else

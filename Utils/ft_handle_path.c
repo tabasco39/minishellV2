@@ -44,7 +44,7 @@ char	**ft_get_all_path(t_list *env, char *line)
 		return (paths_tab);
 	}
 	paths = ft_getvar(env, "PATH");
-	if (paths == NULL)
+	if (paths == NULL || paths[5] == '\0')
 		return (ft_substitute_var(line));
 	paths += 5;
 	paths_tab = ft_split(paths, ':');

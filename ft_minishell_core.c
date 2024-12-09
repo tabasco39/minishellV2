@@ -42,7 +42,7 @@ void	ft_display_command(t_comm cmd)
 	else if (cmd == redirect_output)
 		printf("redirect_input : >");
 	else if (cmd == heredoc)
-		printf("delimiter_redir_input : <<");
+		printf("heredoc : <<");
 	else if (cmd == append_redirect_output)
 		printf("append_redir_output : >>");
 	else if (cmd == not_comm)		/*Si exist, erreur !*/
@@ -70,6 +70,16 @@ void	ft_display_token(t_token *token)
 		token = token->next;
 	}
 }
+
+void	ft_show_list(t_list	*list)
+{
+	while (list)
+	{
+		printf("content: %s\n", (char *)list->content);
+		list = list->next;
+	}
+}
+
 
 static void	ft_display_aux(char *to_print)
 {
@@ -144,7 +154,7 @@ void	ft_minishell_core(t_var *var)
 	ft_set_instru(&var->instru, var->token);
 	if (var->instru && var->instru->next == NULL)
 		ft_upgrade_env(var, "_", var->instru->end->token);
-	//ft_display_token(var->token);
+	ft_display_token(var->token);
 	if (var->token && (var->token->command == not_comm
 		|| ft_valid_redir(var->token) == EXIT_FAILURE))
 	{

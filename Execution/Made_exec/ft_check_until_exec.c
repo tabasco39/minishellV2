@@ -61,7 +61,7 @@ void	ft_check_redir_input(t_exec *iteration, t_token *curr, t_var *var)
 	{
 		if (curr && curr->command == redirect_input)
 		{
-			if (iteration->redir_in_fd != 0 && iteration->redir_in_fd != -1)
+			if (iteration->redir_in_fd != -1)
 				close(iteration->redir_in_fd);
 			if (curr->next)
 				var->iteration->redir_in_fd = open(curr->next->token, O_RDONLY);

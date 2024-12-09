@@ -104,7 +104,7 @@ char	*ft_get_arg(char *to_check, int *i)
 			break ;
 		(*i)++;
 	}
-	if (to_check[*i - 1] == '=')
+	if (to_check[*i - 1] == '=' || to_check[*i + 1] == '\"')
 	{
 		result = ft_substr(to_check, start, (*i) - start);
 		tmp = ft_get_quote_arg(to_check, i);

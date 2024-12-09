@@ -102,24 +102,24 @@ int	ft_tkn_errors(t_var *var, char *to_tkn, char q_ref)
 	return (is_arg);
 }
 
-void	ft_define_exp_del_quote(char **exp, char **tmp,
-		char *list, char *to_tkn)
+void	ft_define_exp_del_quote(char **exp, char *list, char *to_tkn)
 {
 	t_var	*var;
+	char	*tmp;
 
 	var = ft_get_struct_var();
 	*exp = NULL;
-	*tmp = NULL;
+	tmp = NULL;
 	if (ft_find_char(to_tkn, ' ') != -1)
 	{
 		*exp = ft_expand(var, ft_strdup(to_tkn), EXIT_FAILURE);
-		*tmp = ft_define_quote(*exp);
+		tmp = ft_define_quote(*exp);
 		free(*exp);
-		*exp = ft_strdup(*tmp);
+		*exp = ft_strdup(tmp);
 	}
 	else
 	{
-		*tmp = ft_define_quote(to_tkn);
-		*exp = ft_expand_parse(var, *tmp, list);
+		tmp = ft_define_quote(to_tkn);
+		*exp = ft_expand_parse(var, tmp, list);
 	}
 }

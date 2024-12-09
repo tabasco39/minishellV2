@@ -278,8 +278,7 @@ char		*ft_list_aux(char *check, int *i, char tmp, int *flag);
 char		*ft_div_expand_aux(char *change, int *i, char tmp[2]);
 int			ft_del_dollar(char *to_change, int ind_dollar);
 int			ft_tkn_errors(t_var *var, char *to_tkn, char q_ref);
-void		ft_define_exp_del_quote(char **exp,
-				char **tmp, char *list, char *to_tkn);
+void		ft_define_exp_del_quote(char **exp, char *list, char *to_tkn);
 void		ft_join_until_close_quote(char **result,
 				char *check, int *i, char quote[2]);
 int			ft_add_special(char curr[2],
@@ -291,4 +290,5 @@ void		ft_reinit_heredoc_fd(t_instru *tmp, t_token *target, t_var *var);
 void		ft_show_list(t_list	*list);
 t_list		*ft_divide_all(char *to_divide);
 void		ft_apply(t_var *var, char *to_tkn, int is_arg, int is_value);
+void	ft_display_token(t_token *token);
 #endif

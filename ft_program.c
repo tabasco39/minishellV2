@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 11:38:32 by aelison           #+#    #+#             */
-/*   Updated: 2024/11/29 14:17:35 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:45:50 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ int	ft_init_var(t_var *all, char **envp, int argc, char **argv)
 	all->iteration->redir_in_fd = -1;
 	all->iteration->pipefd[0] = -1;
 	all->iteration->pipefd[1] = -1;
-	all->iteration->here_doc_fd[0] = -1;
-	all->iteration->here_doc_fd[1] = -1;
+	all->iteration->hd = -1;
 	all->history = ft_minishell_history(all, EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }

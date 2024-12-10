@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:02:23 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/12/06 08:48:51 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:07:08 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ void	ft_dup_fd_not_start_instru(t_exec it, int *input_fd)
 	}
 }
 
-void	ft_dup_fd_end_instru(t_exec it, int has_redirection)
+void	ft_dup_fd_end_instru(t_exec it)
 {
-	if (it.i != it.end && has_redirection == 0)
+	if (it.i == it.end)
+		dup2(1, STDOUT_FILENO);
+	if (it.i != it.end)
 	{
 		if (dup2(it.pipefd[1], STDOUT_FILENO) == -1)
 		{

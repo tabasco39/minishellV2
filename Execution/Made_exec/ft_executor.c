@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:43:40 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/12/06 15:28:21 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 13:00:04 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_execve(t_instru *tmp, char **all_path, char **params, t_var *var)
 		ft_free_minishell(var);
 		ft_free_all(all_path);
 		ft_free_all(params);
-		ft_putendl_fd("minishell: command not found", 2);
+		ft_putendl_fd("minishell : command not found", 2);
 		exit(127);
 	}
 	ft_free_all(all_path);
@@ -73,15 +73,12 @@ pid_t	ft_exec_current_instru(t_instru *tmp, t_exec *it, int input_fd,
 		ft_check_point(tmp, var);
 		target = ft_find_cmd_token(tmp);
 		ft_dup_fd_not_start_instru(*it, &input_fd);
-		ft_reinit_heredoc_fd(tmp, target, var);
+		ft_dup_fd_end_instru(*it);
 		if (target != NULL)
 		{
 			ft_handle_redirection(var, target,
-				&it->here_doc_fd[0], &it->redir_in_fd);
-			ft_update_has_redirection(target, &it->check);
+				&it->hd, &it->redir_in_fd);
 		}
-		ft_dup_fd_end_instru(*it, it->check);
-		ft_handle_empty_com(tmp, var);
 		ft_exec_path(tmp, var);
 	}
 	signal(SIGQUIT, SIG_IGN);
@@ -96,6 +93,8 @@ pid_t	ft_exec_all_instru(t_instru *tmp, t_exec *iteration, int input_fd,
 	pid = 0;
 	while (tmp)
 	{
+		if (var->iteration->hd != -1)
+			close (var->iteration->hd);
 		if (ft_exec_once(tmp, var) == EXIT_SUCCESS)
 			return (ft_exec_once_builtin(tmp, var, &pid));
 		if (iteration->i != iteration->end)
@@ -103,17 +102,13 @@ pid_t	ft_exec_all_instru(t_instru *tmp, t_exec *iteration, int input_fd,
 			if (pipe(iteration->pipefd) == -1)
 				return (pid);
 		}
+		var->iteration->hd = open("heredoc", O_RDONLY);
 		pid = ft_exec_current_instru(tmp, iteration, input_fd, var);
-		if (iteration->i != iteration->start)
-			close(input_fd);
-		if (iteration->i != iteration->end)
-		{
-			if (iteration->pipefd[1] != -1)
-				close(iteration->pipefd[1]);
-			input_fd = iteration->pipefd[0];
-		}
+		ft_handle_fd(iteration, &input_fd);
 		iteration->i++;
 		tmp = tmp->next;
+		if (var->iteration->hd != -1)
+			close (var->iteration->hd);
 	}
 	return (pid);
 }
@@ -129,12 +124,10 @@ void	ft_exec(t_instru *tmp, t_var *var)
 	ft_init_exec(var->iteration, var);
 	if (ft_handle_unclosed_pipe(var, &tmp, var->iteration) == 1)
 		return ;
-	if (ft_init_pipe_hd(tmp, var) == EXIT_FAILURE)
-		return ;
-	if (tmp && ft_check_before_exec(tmp, target, var->iteration, var) == 1)
+	if (tmp && ft_check_before_exec(tmp, target, var) == 1)
 		return ;
 	pid = ft_exec_all_instru(tmp, var->iteration, input_fd, var);
-	if (var->iteration->redir_in_fd != -1 && var->iteration->redir_in_fd != 0)
+	if (var->iteration->redir_in_fd != -1)
 		close(var->iteration->redir_in_fd);
 	ft_close_pipe(var);
 	waitpid(pid, &var->current_status, 0);

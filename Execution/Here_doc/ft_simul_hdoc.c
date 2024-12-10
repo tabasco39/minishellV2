@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:21:06 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/12/06 14:47:44 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:44:38 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	ft_get_heredoc_result(t_token *target, int hd, t_var *var)
 	exit(EXIT_SUCCESS);
 }
 
-int	ft_simul_heredoc(t_token *target, int hd, t_var *var)
+int	ft_simul_heredoc(t_token *target, t_var *var)
 {
 	pid_t	pid;
 
@@ -105,11 +105,16 @@ int	ft_simul_heredoc(t_token *target, int hd, t_var *var)
 	{
 		return (EXIT_SUCCESS);
 	}
+	if (target->next)
+	{
+		var->iteration->hd = open("heredoc",
+				O_CREAT | O_TRUNC | O_RDWR, S_IRWXU);
+	}
 	pid = fork();
 	if (pid == 0)
 	{
 		signal(SIGINT, ft_interupt_and_exit);
-		ft_get_heredoc_result(target, hd, var);
+		ft_get_heredoc_result(target, var->iteration->hd, var);
 	}
 	waitpid(pid, &var->current_status, 0);
 	ft_handle_exit_status(var);

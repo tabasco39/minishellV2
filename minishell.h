@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 10:02:09 by aelison           #+#    #+#             */
-/*   Updated: 2024/12/06 15:29:01 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:44:58 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ typedef struct s_exec_iteration
 	int						redir_in_fd;
 	int						pipefd[2];
 	int						check;
+	int						out;
+	int						hd;
 }							t_exec;
 
 typedef struct s_var
@@ -169,20 +171,18 @@ void		ft_init_exec_current_instru(pid_t *pid);
 void		ft_init_exec(t_exec *it, t_var *var);
 void		ft_dup_fd_not_start_instru(t_exec it,
 				int *input_fd);
-void		ft_dup_fd_end_instru(t_exec it,
-				int has_redirection);
+void		ft_dup_fd_end_instru(t_exec it);
 char		ft_first_quote(char *word, char first, char second);
 char		*ft_check_ambigous(t_var *var, t_token *token);
 char		**ft_get_execve_parameter(t_instru *current);
 int			ft_check_dir(char *path);
 int			ft_exec_builtin(t_var *all_var, t_token *start,
 				t_token *end);
-int			ft_simul_heredoc(t_token *target, int hd,
-				t_var *var);
+int			ft_simul_heredoc(t_token *target, t_var *var);
 int			ft_handle_unclosed_pipe(t_var *var, t_instru **tmp,
 				t_exec *iteration);
 int			ft_check_before_exec(t_instru *tmp, t_token *target,
-				t_exec *iteration, t_var *var);
+				t_var *var);
 int			ft_valid_redir(t_token *target);
 int			ft_exec_once(t_instru *tmp, t_var *var);
 char		*ft_handle_error_dir(char **all_path, char **params,
@@ -277,18 +277,14 @@ char		*ft_expand_parse(t_var *var, char *to_exp, char *not_exp);
 char		*ft_list_aux(char *check, int *i, char tmp, int *flag);
 char		*ft_div_expand_aux(char *change, int *i, char tmp[2]);
 int			ft_del_dollar(char *to_change, int ind_dollar);
-int			ft_tkn_errors(t_var *var, char *to_tkn, char q_ref);
-void		ft_define_exp_del_quote(char **exp, char *list, char *to_tkn);
+int			ft_tkn_errors(char *to_tkn, char *exp, char *tmp, char q_ref);
+void		ft_define_exp_del_quote(char **exp,
+				char **tmp, char *list, char *to_tkn);
 void		ft_join_until_close_quote(char **result,
 				char *check, int *i, char quote[2]);
 int			ft_add_special(char curr[2],
 				char *to_change, int *i, char **result);
 int			ft_exit_error(t_token *arg);
 int			ft_find_cmd_intru(t_instru *tmp, t_comm target);
-void		ft_reinit_heredoc_fd(t_instru *tmp, t_token *target, t_var *var);
-
-void		ft_show_list(t_list	*list);
-t_list		*ft_divide_all(char *to_divide);
-void		ft_apply(t_var *var, char *to_tkn, int is_arg, int is_value);
-void		ft_display_token(t_token *token);
+void		ft_handle_fd(t_exec *iteration, int *input_fd);
 #endif

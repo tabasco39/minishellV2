@@ -12,16 +12,44 @@
 
 #include "../../minishell.h"
 
+static void	ft_reapply(t_var *var, int is_arg, char *exp)
+{
+	int		i;
+	char	**tmp;
+
+	i = 0;
+	if (ft_find_char(exp, ' ') != -1)
+		is_arg = EXIT_SUCCESS;
+	tmp = ft_split_shell(exp, ' ');
+	while (tmp && tmp[i])
+	{
+		ft_add_token(&var->token, ft_create_token(tmp[i]), is_arg);
+		i++;
+	}
+	ft_free_all(tmp);
+}
+
 static void	ft_tkn_aux(t_var *var, char q_ref, char *to_tkn)
 {
 	int		is_arg;
 	int		is_value;
+	char	*exp;
+	char	*list;
+	char	*tmp;
 
 	is_value = EXIT_FAILURE;
-	is_arg = ft_tkn_errors(var, to_tkn, q_ref);
 	if (ft_find_char(to_tkn, '=') != -1 && ft_find_char(to_tkn, '$') != -1)
 		is_value = EXIT_SUCCESS;
-	ft_apply(var, to_tkn, is_arg, is_value);
+	list = ft_list_to_not_expand(to_tkn);
+	ft_define_exp_del_quote(&exp, &tmp, list, to_tkn);
+	is_arg = ft_tkn_errors(to_tkn, exp, tmp, q_ref);
+	if (q_ref == '\0' && is_value == EXIT_FAILURE)
+		ft_reapply(var, is_arg, exp);
+	else
+		ft_add_token(&var->token, ft_create_token(exp), is_arg);
+	free(list);
+	free(exp);
+	free(tmp);
 }
 
 static char	*ft_loop_dollar(char *to_change)

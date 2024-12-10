@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 10:55:02 by aelison           #+#    #+#             */
-/*   Updated: 2024/12/06 13:23:13 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/09 11:10:13 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_display_command(t_comm cmd)
 	else if (cmd == redirect_output)
 		printf("redirect_input : >");
 	else if (cmd == heredoc)
-		printf("heredoc : <<");
+		printf("delimiter_redir_input : <<");
 	else if (cmd == append_redirect_output)
 		printf("append_redir_output : >>");
 	else if (cmd == not_comm)		/*Si exist, erreur !*/
@@ -70,17 +70,6 @@ void	ft_display_token(t_token *token)
 		token = token->next;
 	}
 }
-
-void	ft_show_list(t_list	*list)
-{
-	printf("======================== Display List =============================\n");
-	while (list)
-	{
-		printf("content: %s\n", (char *)list->content);
-		list = list->next;
-	}
-}
-
 
 static void	ft_display_aux(char *to_print)
 {

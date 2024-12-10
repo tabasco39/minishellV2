@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:51:33 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/28 08:40:56 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:26:50 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,11 @@ int	ft_handle_unclosed_pipe(t_var *var, t_instru **tmp, t_exec *iteration)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_check_heredoc(t_token *target, t_exec *iteration, t_var *var)
+int	ft_check_heredoc(t_token *target, t_var *var)
 {
 	if (target && target->command == heredoc)
 	{
-		var->current_status = ft_simul_heredoc(target,
-				iteration->here_doc_fd[1], var);
-		if (iteration->here_doc_fd[1] != -1)
-			close(iteration->here_doc_fd[1]);
+		var->current_status = ft_simul_heredoc(target, var);
 		if (var->current_status != EXIT_SUCCESS)
 		{
 			var->status = var->current_status;
@@ -55,14 +52,12 @@ int	ft_check_heredoc(t_token *target, t_exec *iteration, t_var *var)
 	return (EXIT_SUCCESS);
 }
 
-void	ft_check_redir_input(t_exec *iteration, t_token *curr, t_var *var)
+void	ft_check_redir_input(t_token *curr, t_var *var)
 {
 	while (curr)
 	{
 		if (curr && curr->command == redirect_input)
 		{
-			if (iteration->redir_in_fd != -1)
-				close(iteration->redir_in_fd);
 			if (curr->next)
 				var->iteration->redir_in_fd = open(curr->next->token, O_RDONLY);
 		}
@@ -77,16 +72,15 @@ int	ft_do_pipe_error(t_token *target)
 	return (EXIT_FAILURE);
 }
 
-int	ft_check_before_exec(t_instru *tmp, t_token *target, t_exec *iteration,
-		t_var *var)
+int	ft_check_before_exec(t_instru *tmp, t_token *target, t_var *var)
 {
 	t_token	*curr;
 	t_token	*get_pipe;
 
 	curr = ft_find_redirection(tmp->start);
-	if (ft_check_heredoc(curr, iteration, var) == EXIT_FAILURE)
+	if (ft_check_heredoc(curr, var) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	ft_check_redir_input(iteration, curr, var);
+	ft_check_redir_input(curr, var);
 	curr = target;
 	while (curr)
 	{

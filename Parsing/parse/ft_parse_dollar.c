@@ -57,7 +57,10 @@ static char	*ft_value(t_var *var, char *check, int *ind_dollar)
 		i--;
 	if (i < 0)
 		i = 0;
-	result = ft_expand_aux(var, check, ind_dollar);
+	if (i >= 0 && check[i] != '<' && check[i] != '>')
+		result = ft_expand_aux(var, check, ind_dollar);
+	else
+		result = ft_strdup("$");
 	return (result);
 }
 

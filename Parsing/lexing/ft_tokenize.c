@@ -91,7 +91,7 @@ char	*ft_expand_parse(t_var *var, char *to_exp, char *not_exp)
 
 	i = 0;
 	divide = ft_div_expand(to_exp);
-	tmp = ft_split_shell(divide, ' ');
+	tmp = ft_split(divide, ' ');
 	while (tmp[i])
 	{
 		if (ft_find_char(not_exp, i + '0') == -1)

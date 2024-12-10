@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 15:28:00 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/12/06 15:29:55 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:43:39 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ int	ft_find_cmd_intru(t_instru *tmp, t_comm target)
 	return (EXIT_FAILURE);
 }
 
-void	ft_reinit_heredoc_fd(t_instru *tmp, t_token *target, t_var *var)
+void	ft_handle_fd(t_exec *iteration, int *input_fd)
 {
-	if (!target || ft_find_cmd_intru(tmp, heredoc) == EXIT_FAILURE)
+	if (iteration->i != iteration->start)
+		close(*input_fd);
+	if (iteration->i != iteration->end)
 	{
-		if (!tmp->next)
-		{
-			var->iteration->here_doc_fd[0] = -1;
-			var->iteration->here_doc_fd[1] = -1;
-		}
+		if (iteration->pipefd[1] != -1)
+			close(iteration->pipefd[1]);
+		*input_fd = iteration->pipefd[0];
 	}
 }

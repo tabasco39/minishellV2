@@ -86,29 +86,25 @@ void	ft_set_instru(t_instru **test, t_token *head)
 	}
 }
 
-static char	*ft_reapply(t_var *var, int is_arg, char *exp)
+static void	ft_reapply(t_var *var, int is_arg, char *exp)
 {
 	int		i;
 	char	**tmp;
 	char	*stack;
-	char	*result;
 
 	i = 0;
 	var = (void *)var;
 	if (ft_find_char(exp, ' ') != -1)
 		is_arg = EXIT_SUCCESS;
 	tmp = ft_split_shell(exp, ' ');
-	result = ft_strdup("\0");
 	while (tmp && tmp[i])
 	{
-		result = ft_strjoin_shell(result, tmp[i]);
-		result = ft_strjoin_shell(result, " ");
+		stack  = ft_strtrim(tmp[i], " ");
+		ft_add_token(&var->token, ft_create_token(stack), is_arg);
+		free(stack);
 		i++;
 	}
 	ft_free_all(tmp);
-	stack  = ft_strtrim(result, " ");
-	free(result);
-	return (stack);
 }
 
 void	ft_apply(t_var *var, char *to_tkn, int is_arg, int is_value)
@@ -121,20 +117,26 @@ void	ft_apply(t_var *var, char *to_tkn, int is_arg, int is_value)
 
 	test = ft_divide_all(to_tkn);
 	stack = test;
-	list = ft_list_to_not_expand(to_tkn);
 	hehe = ft_strdup("\0");
 	while (test)
 	{
+		list = ft_list_to_not_expand(test->content);
 		ft_define_exp_del_quote(&exp, list, test->content);
 		if (ft_first_quote(test->content, '\'', '\"') == '\0' && is_value == EXIT_FAILURE)
-			hehe = ft_strjoin_shell(hehe, ft_reapply(var, is_arg, exp));
+		{
+			if (ft_find_char(exp, ' ') != -1)
+				ft_reapply(var, is_arg, exp);
+			else
+				hehe = ft_strjoin_shell(hehe, exp);
+		}
 		else
 			hehe = ft_strjoin_shell(hehe, exp);	
 		free(exp);
+		free(list);
 		test = test->next;
 	}
-	ft_add_token(&var->token, ft_create_token(hehe), is_arg);
+	if (hehe[0] != '\0')
+		ft_add_token(&var->token, ft_create_token(hehe), is_arg);
 	free(hehe);
-	free(list);
 	ft_lstclear(&stack, free);
 }

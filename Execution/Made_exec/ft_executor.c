@@ -26,7 +26,7 @@ void	ft_execve(t_instru *tmp, char **all_path, char **params, t_var *var)
 		ft_free_minishell(var);
 		ft_free_all(all_path);
 		ft_free_all(params);
-		ft_putendl_fd("minishell : command not found", 2);
+		ft_putendl_fd("minishell: command not found", 2);
 		exit(127);
 	}
 	ft_free_all(all_path);

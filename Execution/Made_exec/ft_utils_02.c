@@ -82,14 +82,14 @@ void	ft_check_point(t_instru *tmp, t_var *var)
 	if (ft_strncmp(tmp->start->token, ".", ft_max_value(len_token, 1)) == 0
 		&& tmp->start->command == in_sys)
 	{
-		ft_putendl_fd("minishell test: filename argument required", 2);
+		ft_putendl_fd("minishell: filename argument required", 2);
 		ft_free_minishell(var);
 		exit (2);
 	}
 	if (ft_strncmp(tmp->start->token, "..", ft_max_value(len_token, 2)) == 0
 		&& tmp->start->command == in_sys)
 	{
-		ft_putendl_fd("minishell : command not found", 2);
+		ft_putendl_fd("minishell: command not found", 2);
 		ft_free_minishell(var);
 		exit (127);
 	}

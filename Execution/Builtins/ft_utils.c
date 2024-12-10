@@ -18,7 +18,8 @@ void	ft_exit_status(t_token *start, int *status,
 	t_var	*var;
 
 	var = ft_get_struct_var();
-	if (*status == EXIT_FAILURE || ft_valid_exit(start->token, *value) == EXIT_FAILURE)
+	if (*status == EXIT_FAILURE
+		|| ft_valid_exit(start->token, *value) == EXIT_FAILURE)
 	{
 		*status = EXIT_FAILURE;
 		ft_putendl_fd("minishell: error numeric arg required", 2);

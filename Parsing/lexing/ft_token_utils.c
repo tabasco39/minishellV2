@@ -99,6 +99,7 @@ int	ft_tkn_errors(t_var *var, char *to_tkn, char q_ref)
 			|| ft_find_char(to_tkn, '|') != -1)
 			is_arg = EXIT_SUCCESS;
 	}
+	free(exp);
 	return (is_arg);
 }
 
@@ -116,10 +117,12 @@ void	ft_define_exp_del_quote(char **exp, char *list, char *to_tkn)
 		tmp = ft_define_quote(*exp);
 		free(*exp);
 		*exp = ft_strdup(tmp);
+		free(tmp);
 	}
 	else
 	{
 		tmp = ft_define_quote(to_tkn);
 		*exp = ft_expand_parse(var, tmp, list);
+		free(tmp);
 	}
 }

@@ -50,6 +50,7 @@ SRC = ft_program.c \
 	  Parsing/parse/ft_parse_dollar_utils.c \
 	  Parsing/parse/ft_define_quote.c \
 	  Parsing/parse/ft_quote_util.c \
+	  Parsing/parse/ft_tokenize.c \
 	  Parsing/instruction/ft_set_instructions.c \
 	  Parsing/instruction/ft_utils.c
 

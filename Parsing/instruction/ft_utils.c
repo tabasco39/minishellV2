@@ -104,7 +104,7 @@ char	*ft_get_arg(char *to_check, int *i)
 			break ;
 		(*i)++;
 	}
-	if (to_check[*i - 1] == '=' || to_check[*i + 1] == '\"')
+	if (to_check[*i] && (to_check[*i - 1] == '=' || to_check[*i + 1] == '\"'))
 	{
 		result = ft_substr(to_check, start, (*i) - start);
 		tmp = ft_get_quote_arg(to_check, i);
@@ -125,8 +125,8 @@ t_list	*ft_divide_all(char *to_divide)
 	int		i;
 	char	*tmp;
 
-	result = NULL;
 	i = 0;
+	result = NULL;
 	while (to_divide[i])
 	{
 		if (to_divide[i] == '\'' || to_divide[i] == '\"')

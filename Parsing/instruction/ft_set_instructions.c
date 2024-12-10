@@ -135,8 +135,7 @@ void	ft_apply(t_var *var, char *to_tkn, int is_arg, int is_value)
 		free(list);
 		test = test->next;
 	}
-	if (hehe[0] != '\0')
-		ft_add_token(&var->token, ft_create_token(hehe), is_arg);
+	ft_add_token(&var->token, ft_create_token(hehe), is_arg);
 	free(hehe);
 	ft_lstclear(&stack, free);
 }

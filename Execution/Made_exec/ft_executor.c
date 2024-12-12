@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:43:40 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/12/10 15:06:34 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:07:18 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ pid_t	ft_exec_all_instru(t_instru *tmp, t_exec *iteration, int input_fd,
 			if (pipe(iteration->pipefd) == -1)
 				return (pid);
 		}
-		var->iteration->hd = open("heredoc", O_RDONLY);
+		var->iteration->hd = open("/tmp/heredoc", O_RDONLY);
 		pid = ft_exec_current_instru(tmp, iteration, input_fd, var);
 		ft_handle_fd(iteration, &input_fd);
 		iteration->i++;

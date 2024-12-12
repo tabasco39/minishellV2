@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 10:02:09 by aelison           #+#    #+#             */
-/*   Updated: 2024/12/10 14:49:01 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/12 08:58:25 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,4 +290,6 @@ void		ft_show_list(t_list	*list);
 t_list		*ft_divide_all(char *to_divide);
 void		ft_apply(t_var *var, char *to_tkn, int is_arg, int is_value);
 void		ft_display_token(t_token *token);
+int			ft_handle_access(t_token *target, t_var *var);
+
 #endif

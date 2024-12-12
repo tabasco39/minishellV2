@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 06:36:49 by aelison           #+#    #+#             */
-/*   Updated: 2024/12/10 14:46:33 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/12 08:23:51 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void	ft_free_minishell(t_var *all_var)
 		close (all_var->iteration->hd);
 	if (all_var->history != -1)
 		close(all_var->history);
-	if (all_var->iteration->redir_in_fd != 0
-		&& all_var->iteration->redir_in_fd != -1)
+	if (all_var->iteration->redir_in_fd != -1)
 		close (all_var->iteration->redir_in_fd);
 	ft_lstclear_instru(&all_var->instru, &all_var->token);
 	ft_lstclear(&all_var->env, free);

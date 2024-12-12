@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:21:06 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/12/10 11:44:38 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:21:31 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	ft_simul_heredoc(t_token *target, t_var *var)
 	}
 	if (target->next)
 	{
-		var->iteration->hd = open("heredoc",
+		var->iteration->hd = open("/tmp/heredoc",
 				O_CREAT | O_TRUNC | O_RDWR, S_IRWXU);
 	}
 	pid = fork();

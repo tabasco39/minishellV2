@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:32:24 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/12/10 11:18:43 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:00:20 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,28 +61,26 @@ int	ft_error_redirect_input(t_token *target, char *check_ambigous,
 int	ft_handle_input_redirection(t_token *target, char *check_ambigous,
 		int *input_fd, t_var *var)
 {
-	if (target->command == redirect_input)
+	while (target)
 	{
-		if (access(target->next->token, R_OK) == -1)
+		if (target->command == redirect_input)
 		{
-			if (errno == EACCES)
+			if (ft_handle_access(target, var) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+			if (ft_error_redirect_input(target, check_ambigous, input_fd, var))
+				return (EXIT_FAILURE);
+			if (target->next)
+				var->iteration->redir_in_fd = open(target->next->token,
+						O_RDONLY);
+			if (dup2(var->iteration->redir_in_fd, STDIN_FILENO) == -1)
 			{
-				ft_putendl_fd("minishell : Permission denied", 2);
-				close(*input_fd);
+				close(var->iteration->redir_in_fd);
 				ft_close_pipe(var);
 				ft_free_minishell(var);
 				return (EXIT_FAILURE);
 			}
 		}
-		if (ft_error_redirect_input(target, check_ambigous, input_fd, var))
-			return (EXIT_FAILURE);
-		if (dup2(*input_fd, STDIN_FILENO) == -1)
-		{
-			close(*input_fd);
-			ft_close_pipe(var);
-			ft_free_minishell(var);
-			return (EXIT_FAILURE);
-		}
+		target = target->next;
 	}
 	return (EXIT_SUCCESS);
 }

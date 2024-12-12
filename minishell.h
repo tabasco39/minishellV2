@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 10:02:09 by aelison           #+#    #+#             */
-/*   Updated: 2024/12/10 14:49:01 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:09:52 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,4 +285,6 @@ int			ft_find_cmd_intru(t_instru *tmp, t_comm target);
 void		ft_handle_fd(t_exec *iteration, int *input_fd);
 t_list		*ft_divide_all(char *to_divide);
 void		ft_apply(t_var *var, char *to_tkn, int is_arg, int is_value);
+int			ft_handle_access(t_token *target, t_var *var);
+
 #endif

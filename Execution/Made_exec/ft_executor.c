@@ -18,7 +18,7 @@ void	ft_execve(t_instru *tmp, char **all_path, char **params, t_var *var)
 
 	path = NULL;
 	if (all_path)
-		path = ft_handle_error_dir(all_path, params, var);
+		path = ft_handle_error_dir(all_path, params);
 	else
 		path = ft_handle_no_such_file(tmp, all_path, params, var);
 	if (!path)

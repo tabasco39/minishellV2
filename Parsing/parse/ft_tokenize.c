@@ -73,11 +73,15 @@ void	ft_apply(t_var *var, char *to_tkn, int is_arg, int is_value)
 
 	list = ft_divide_all(to_tkn);
 	token_word = ft_apply_aux(var, list, is_arg, is_value);
-	if (ft_find_char(to_tkn, '$') != -1 && token_word[0] == '\0')
+	if (token_word[0] == '\0')
 	{
-		free(token_word);
-		ft_lstclear(&list, free);
-		return ;
+		if (ft_find_char(to_tkn, '$') != -1
+			&& ft_first_quote(to_tkn, '\'', '\"') == '\0')
+		{
+			free(token_word);
+			ft_lstclear(&list, free);
+			return ;
+		}
 	}
 	ft_add_token(&var->token, ft_create_token(token_word), is_arg);
 	free(token_word);

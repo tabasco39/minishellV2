@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:32:24 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/12/06 15:23:29 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:18:43 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	ft_handle_input_redirection(t_token *target, char *check_ambigous,
 		}
 		if (ft_error_redirect_input(target, check_ambigous, input_fd, var))
 			return (EXIT_FAILURE);
-		if (*input_fd != -1 && dup2(*input_fd, STDIN_FILENO) == -1)
+		if (dup2(*input_fd, STDIN_FILENO) == -1)
 		{
 			close(*input_fd);
 			ft_close_pipe(var);
@@ -113,9 +113,8 @@ void	ft_handle_redirection(t_var *var, t_token *target,
 		if (ft_handle_input_redirection(target, check_ambigous,
 				input_redir, var) == EXIT_FAILURE)
 			exit (EXIT_FAILURE);
-		ft_handle_heredoc_redirection(hd);
-		if (*hd != -1)
-			close(*hd);
+		if (target->command == heredoc)
+			ft_handle_heredoc_redirection(hd);
 		if (target->is_end == 1)
 			break ;
 		target = target->next;

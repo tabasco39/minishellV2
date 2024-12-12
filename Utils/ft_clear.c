@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 06:36:49 by aelison           #+#    #+#             */
-/*   Updated: 2024/12/06 14:58:58 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:46:33 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	ft_free_minishell(t_var *all_var)
 {
-	if (all_var->iteration->here_doc_fd[0] != -1)
-		close (all_var->iteration->here_doc_fd[0]);
-	if (all_var->iteration->here_doc_fd[1] != -1)
-		close (all_var->iteration->here_doc_fd[1]);
+	if (all_var->iteration->hd != -1)
+		close (all_var->iteration->hd);
 	if (all_var->history != -1)
 		close(all_var->history);
 	if (all_var->iteration->redir_in_fd != 0
@@ -64,10 +62,8 @@ void	ft_free_all(char **split)
 
 void	ft_close_pipe(t_var *var)
 {
-	if (var->iteration->here_doc_fd[0] != -1)
-		close (var->iteration->here_doc_fd[0]);
-	if (var->iteration->here_doc_fd[1] != -1)
-		close (var->iteration->here_doc_fd[1]);
+	if (var->iteration->hd != -1)
+		close (var->iteration->hd);
 	if (var->iteration->pipefd[0] != -1)
 		close(var->iteration->pipefd[0]);
 	if (var->iteration->pipefd[1] != -1)

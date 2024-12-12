@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 08:27:37 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/11/28 08:41:36 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:49:34 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,4 @@ void	ft_handle_empty_com(t_instru *tmp, t_var *var)
 		ft_free_minishell(var);
 		exit(127);
 	}
-}
-
-int	ft_init_pipe_hd(t_instru *tmp, t_var *var)
-{
-	if (tmp && tmp->start)
-	{
-		if (ft_find_cmd(tmp->start, heredoc) != NULL)
-		{
-			if (pipe(var->iteration->here_doc_fd) == -1)
-				return (EXIT_FAILURE);
-		}
-	}
-	return (EXIT_SUCCESS);
 }

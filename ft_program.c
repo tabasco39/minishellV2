@@ -87,25 +87,18 @@ int	ft_init_var(t_var *all, char **envp, int argc, char **argv)
 int	main(int argc, char **argv, char **envp)
 {
 	t_var	*all_var;
-	int		i;
 
 	all_var = ft_get_struct_var();
 	if (ft_init_var(all_var, envp, argc, argv) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	while (1)
 	{
-		i = 0;
 		ft_handle_signal();
 		all_var->line = readline(GREEN"Minishell$> "RESET);
 		if (all_var->line == NULL)
 			ft_exit(all_var, all_var->status);
-		while ((all_var->line[i] >= 9 && all_var->line[i] <= 13))
-			i++;
-		if (all_var->line[i] != '\0')
-		{
-			ft_history(all_var);
-			ft_minishell_core(all_var);
-		}
+		ft_history(all_var);
+		ft_minishell_core(all_var);
 	}
 	return (all_var->status);
 }

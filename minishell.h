@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 10:02:09 by aelison           #+#    #+#             */
-/*   Updated: 2024/12/12 08:58:25 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:09:52 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,8 +184,7 @@ int			ft_check_before_exec(t_instru *tmp, t_token *target,
 				t_var *var);
 int			ft_valid_redir(t_token *target);
 int			ft_exec_once(t_instru *tmp, t_var *var);
-char		*ft_handle_error_dir(char **all_path, char **params,
-				t_var *var);
+char		*ft_handle_error_dir(char **all_path, char **params);
 char		*ft_handle_no_such_file(t_instru *tmp,
 				char **all_path, char **params, t_var *var);
 pid_t		ft_exec_once_builtin(t_instru *tmp, t_var *var,
@@ -243,7 +242,6 @@ int			ft_free_in_ambigous(t_var *var,
 void		ft_close_pipe(t_var *var);
 int			ft_is_open(char *to_check, int end);
 void		ft_rl_cut(t_var *var, char *to_add);
-int			ft_init_pipe_hd(t_instru *tmp, t_var *var);
 void		ft_create_envp(t_list **all_env, char **envp);
 int			ft_export_aux(t_var *var, char *to_add);
 int			ft_unset_utils(t_var *var, t_list **tmp,
@@ -285,11 +283,8 @@ int			ft_add_special(char curr[2],
 int			ft_exit_error(t_token *arg);
 int			ft_find_cmd_intru(t_instru *tmp, t_comm target);
 void		ft_handle_fd(t_exec *iteration, int *input_fd);
-
-void		ft_show_list(t_list	*list);
 t_list		*ft_divide_all(char *to_divide);
 void		ft_apply(t_var *var, char *to_tkn, int is_arg, int is_value);
-void		ft_display_token(t_token *token);
 int			ft_handle_access(t_token *target, t_var *var);
 
 #endif

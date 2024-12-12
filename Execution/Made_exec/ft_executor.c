@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:43:40 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/12/12 09:07:18 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:25:00 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_execve(t_instru *tmp, char **all_path, char **params, t_var *var)
 
 	path = NULL;
 	if (all_path)
-		path = ft_handle_error_dir(all_path, params, var);
+		path = ft_handle_error_dir(all_path, params);
 	else
 		path = ft_handle_no_such_file(tmp, all_path, params, var);
 	if (!path)

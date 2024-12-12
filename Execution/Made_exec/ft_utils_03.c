@@ -48,13 +48,12 @@ void	ft_errno(char **params, char **all_path,
 	exit(status);
 }
 
-char	*ft_handle_error_dir(char **all_path, char **params, t_var *var)
+char	*ft_handle_error_dir(char **all_path, char **params)
 {
 	char	*result;
 	void	*dir;
 
 	result = NULL;
-	var = (void *) var;
 	if (all_path[1] == NULL)
 	{
 		dir = opendir(all_path[0]);

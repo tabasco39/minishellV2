@@ -6,81 +6,11 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 10:55:02 by aelison           #+#    #+#             */
-/*   Updated: 2024/12/06 13:23:13 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/12 07:06:57 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_display_command(t_comm cmd)
-{
-	printf("t_comm = ");
-	if (cmd == argument)
-		printf("argument");
-	else if (cmd == option)
-		printf("option");
-	else if (cmd == env)
-		printf("env");
-	else if (cmd == pwd)
-		printf("pwd");
-	else if (cmd == cd)
-		printf("cd");
-	else if (cmd == echo)
-		printf("echo");
-	else if (cmd == unset)
-		printf("unset");
-	else if (cmd == question)
-		printf("question");
-	else if (cmd == e_export)
-		printf("export");
-	else if (cmd == e_exit)
-		printf("exit");
-	else if (cmd == e_pipe)
-		printf("pipe");
-	else if (cmd == redirect_input)
-		printf("redirect_input : <");
-	else if (cmd == redirect_output)
-		printf("redirect_input : >");
-	else if (cmd == heredoc)
-		printf("heredoc : <<");
-	else if (cmd == append_redirect_output)
-		printf("append_redir_output : >>");
-	else if (cmd == not_comm)		/*Si exist, erreur !*/
-		printf("not_comm");
-	else if (cmd == in_sys)
-		printf("in_sys");
-	else if (cmd == dollar)			/*Si exist, un argument ayant eu un dollar avant expand*/
-		printf("dollar");
-	printf("\n\n");
-}
-
-void	ft_display_token(t_token *token)
-{
-	int	i;
-	i = 0;
-	printf("\n=================== Display token ==========================\n");
-	while (token)
-	{
-		printf("Token %d\n", i);
-		printf("token = %s\t", token->token);
-		printf("is_head = %d\t", token->is_head);
-		printf("is_end = %d\t", token->is_end);
-		ft_display_command(token->command);
-		i++;
-		token = token->next;
-	}
-}
-
-void	ft_show_list(t_list	*list)
-{
-	printf("======================== Display List =============================\n");
-	while (list)
-	{
-		printf("content: %s\n", (char *)list->content);
-		list = list->next;
-	}
-}
-
 
 static void	ft_display_aux(char *to_print)
 {
@@ -155,9 +85,8 @@ void	ft_minishell_core(t_var *var)
 	ft_set_instru(&var->instru, var->token);
 	if (var->instru && var->instru->next == NULL)
 		ft_upgrade_env(var, "_", var->instru->end->token);
-	//ft_display_token(var->token);
 	if (var->token && (var->token->command == not_comm
-		|| ft_valid_redir(var->token) == EXIT_FAILURE))
+			|| ft_valid_redir(var->token) == EXIT_FAILURE))
 	{
 		ft_display_error_without_exit("syntax error near unexpected token : ",
 			var->token->token, 2, var);

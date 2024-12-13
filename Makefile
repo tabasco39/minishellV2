@@ -35,7 +35,6 @@ SRC = ft_program.c \
 	  Env/ft_handle_envp.c \
 	  Env/ft_new_envp.c \
 	  Env/ft_env_utils.c \
-	  Env/ft_all_valid_export.c \
 	  Parsing/lexing/ft_token_control.c \
 	  Parsing/lexing/ft_lexing.c \
 	  Parsing/lexing/ft_edit.c \

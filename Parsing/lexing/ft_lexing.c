@@ -38,6 +38,7 @@ int	ft_check_cmd(char *token)
 	int		res;
 	size_t	len;
 
+	res = -1;
 	len = ft_strlen(token);
 	if (ft_strncmp(token, "$?", ft_max_value(len, ft_strlen("cd"))) == 0)
 		return (question);

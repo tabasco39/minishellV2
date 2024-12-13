@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 11:38:32 by aelison           #+#    #+#             */
-/*   Updated: 2024/12/10 14:45:50 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/13 07:48:57 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_init_var(t_var *all, char **envp, int argc, char **argv)
 	all->line = NULL;
 	all->instru = NULL;
 	all->hdoc_line = NULL;
-	all->path_history = "/tmp/.minishell_history";
+	all->path_history = ".minishell_history";
 	all->current_status = 0;
 	ft_create_envp(&all->env, envp);
 	all->tab_env = ft_new_envp(all->env);

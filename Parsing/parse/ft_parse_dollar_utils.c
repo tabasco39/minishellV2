@@ -30,6 +30,8 @@ char	*ft_expand_to_value(t_list *env, char *to_change)
 	env_value = ft_getvar(env, to_change);
 	if (env_value == NULL)
 		return ("\0");
+	if (ft_find_char(env_value, '=') == -1)
+		return ("\0");
 	env_value = env_value + ft_find_char(env_value, '=') + 1;
 	return (env_value);
 }

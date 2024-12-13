@@ -42,6 +42,11 @@ int	ft_exec_export(t_var *var, t_token *start, t_token *end)
 		ft_putstr_fd("minishell: export : not a valid identifier\n", 2);
 		return (result);
 	}
+	if (ft_all_valid_export(start) == EXIT_FAILURE)
+	{
+		result = ft_export_aux(var, NULL);
+		return (result);
+	}
 	while (start != end && start)
 	{
 		ft_export_aux(var, start->token);
